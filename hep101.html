@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ระบบคัดกรอง HepB-C จังหวัดร้อยเอ็ด</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --s1:#075985; --s2:#0369a1; --s3:#0284c7; --s4:#0ea5e9;
+      --s5:#38bdf8; --s6:#7dd3fc; --s7:#bae6fd; --s8:#e0f2fe; --s9:#f0f9ff;
+      --t1:#134e4a; --t2:#0f766e; --t3:#0d9488; --t4:#14b8a6;
+      --t5:#2dd4bf; --t6:#5eead4; --t7:#ccfbf1; --t8:#f0fdfa;
+      --card:#fff;
+      --bdr:#bae6fd; --bdr2:#e0f2fe;
+      --text:#075985; --muted:#0369a1; --gray:#64748b;
+      --rg-bg:#dcfce7; --rg-tx:#166534;
+      --ry-bg:#fef9c3; --ry-tx:#713f12;
+      --ro-bg:#ffedd5; --ro-tx:#9a3412;
+      --rr-bg:#ffe4e6; --rr-tx:#9f1239;
+      --sh:0 4px 20px rgba(14,165,233,.13),0 1px 4px rgba(14,165,233,.07);
+      --sh-hero:0 8px 40px rgba(3,105,161,.32);
+      --sh-modal:0 24px 64px rgba(3,105,161,.22);
+      --r:20px; --rsm:12px; --rxs:8px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Sarabun','Noto Sans Thai',system-ui,sans-serif;
+      background:linear-gradient(160deg,#dff3ff 0%,#edfff8 50%,#dff2ff 100%);
+      background-attachment:fixed;color:var(--text);font-size:14px;line-height:1.55;min-height:100vh}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-track{background:#e0f2fe}
+    ::-webkit-scrollbar-thumb{background:#38bdf8;border-radius:3px}
+    .app{max-width:1760px;margin:0 auto;padding:20px 18px}
+
+    /* ── HERO ── */
+    .hero{position:relative;overflow:hidden;
+      background:linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 72%,#06b6d4 100%);
+      border-radius:var(--r);padding:28px 34px;margin-bottom:18px;
+      display:flex;justify-content:space-between;align-items:center;gap:18px;
+      box-shadow:var(--sh-hero)}
+    .hero::before{content:'';position:absolute;top:-80px;right:-60px;width:300px;height:300px;
+      border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.2) 0%,transparent 65%);pointer-events:none}
+    .hero::after{content:'';position:absolute;bottom:-70px;left:30%;width:260px;height:260px;
+      border-radius:50%;background:radial-gradient(circle,rgba(125,211,252,.22) 0%,transparent 70%);pointer-events:none}
+    .hero-stripe{position:absolute;inset:0;pointer-events:none;
+      background:repeating-linear-gradient(-55deg,transparent,transparent 50px,rgba(255,255,255,.025) 50px,rgba(255,255,255,.025) 100px)}
+    .hero-inner{position:relative;z-index:1;display:flex;align-items:center;gap:18px;flex:1}
+    .hero-icon{width:56px;height:56px;flex-shrink:0;background:rgba(255,255,255,.18);
+      border:1.5px solid rgba(255,255,255,.3);border-radius:16px;display:flex;align-items:center;
+      justify-content:center;font-size:28px;backdrop-filter:blur(4px)}
+    .hero h1{color:#fff;font-size:clamp(15px,2vw,23px);font-weight:800;letter-spacing:-.3px;line-height:1.3}
+    .hero-chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:7px}
+    .hchip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.92);
+      font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+    .hero-right{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+    .live-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);
+      border:1.5px solid rgba(255,255,255,.35);color:#fff;
+      padding:9px 20px;border-radius:999px;font-weight:700;font-size:13px;white-space:nowrap}
+    .dot{width:9px;height:9px;border-radius:50%;background:#86efac;
+      box-shadow:0 0 0 0 rgba(134,239,172,.5);animation:ping 2s infinite}
+    @keyframes ping{0%{box-shadow:0 0 0 0 rgba(134,239,172,.5)}70%{box-shadow:0 0 0 9px rgba(134,239,172,0)}100%{box-shadow:0 0 0 0 rgba(134,239,172,0)}}
+    .hero-auth{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .btn-hero{display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+      border:1.5px solid rgba(255,255,255,.35);border-radius:999px;
+      background:rgba(255,255,255,.18);color:#fff;
+      padding:7px 16px;font:inherit;font-size:13px;font-weight:700;
+      transition:background .15s;white-space:nowrap}
+    .btn-hero:hover{background:rgba(255,255,255,.28)}
+    .user-tag{color:rgba(255,255,255,.9);font-size:12px;font-weight:600;
+      background:rgba(255,255,255,.15);padding:6px 14px;border-radius:999px;white-space:nowrap}
+
+    /* ── TAB NAV ── */
+    .tab-nav{display:flex;gap:4px;margin-bottom:18px;background:var(--card);
+      padding:6px;border-radius:var(--rsm);border:1.5px solid var(--bdr);
+      box-shadow:var(--sh);width:fit-content}
+    .tab-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 22px;
+      border:none;border-radius:var(--rxs);background:transparent;
+      font:inherit;font-size:13.5px;font-weight:700;color:var(--gray);
+      cursor:pointer;transition:background .15s,color .15s;white-space:nowrap}
+    .tab-btn:hover{background:var(--s9);color:var(--s2)}
+    .tab-btn.active.hosp{background:linear-gradient(135deg,var(--s2),var(--s4));color:#fff;
+      box-shadow:0 3px 10px rgba(2,132,199,.28)}
+    .tab-btn.active.hpht{background:linear-gradient(135deg,var(--t2),var(--t4));color:#fff;
+      box-shadow:0 3px 10px rgba(13,148,136,.28)}
+    .tab-lock{font-size:11px;opacity:.7}
+
+    /* ── TOOLBAR ── */
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:none;
+      border-radius:var(--rsm);padding:10px 18px;font:inherit;font-size:13px;font-weight:700;
+      color:#fff;transition:transform .15s,filter .15s;white-space:nowrap}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+    .btn:active{transform:translateY(0);filter:brightness(.95)}
+    .btn-sky{background:linear-gradient(135deg,var(--s2),var(--s4));box-shadow:0 4px 14px rgba(2,132,199,.3)}
+    .btn-teal{background:linear-gradient(135deg,var(--t2),var(--t4));box-shadow:0 4px 14px rgba(13,148,136,.28)}
+    .btn-gray{background:linear-gradient(135deg,#475569,#64748b);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+    .year-pill{display:flex;align-items:center;gap:8px;background:var(--card);
+      border:2px solid var(--s4);border-radius:var(--rsm);padding:5px 8px 5px 14px}
+    .year-pill label{font-weight:700;color:var(--s2);font-size:12.5px;white-space:nowrap}
+    .year-pill select{border:none;background:transparent;font:inherit;font-weight:800;font-size:13px;color:var(--s2);cursor:pointer;outline:none;padding:3px 4px}
+    .year-pill-t{border-color:var(--t4)}
+    .year-pill-t label{color:var(--t2)}
+    .year-pill-t select{color:var(--t2)}
+    .sep{width:1px;height:26px;background:var(--s7);margin:0 2px}
+
+    /* ── STATS BAR ── */
+    .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+    .stat-card{background:var(--card);border-radius:var(--rsm);padding:16px 18px;
+      border:1.5px solid var(--bdr2);box-shadow:var(--sh);
+      display:flex;align-items:center;gap:14px;transition:transform .15s}
+    .stat-card:hover{transform:translateY(-2px)}
+    .stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .si-a{background:var(--s8)} .si-b{background:#cffafe} .si-c{background:var(--t7)} .si-d{background:#dcfce7}
+    .stat-val{font-size:22px;font-weight:800;color:var(--s1);line-height:1}
+    .stat-lbl{font-size:12px;color:var(--gray);margin-top:3px;font-weight:600}
+
+    /* ── REPORT CARD ── */
+    .report-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+      overflow:hidden;margin-bottom:20px;border:1.5px solid var(--bdr)}
+    .rpt-hd{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 24px}
+    .rpt-hd.hosp{background:linear-gradient(135deg,var(--s1) 0%,var(--s2) 55%,var(--t2) 100%)}
+    .rpt-hd.hpht{background:linear-gradient(135deg,var(--t1) 0%,var(--t2) 55%,#0284c7 100%)}
+    .rpt-hd-l{display:flex;align-items:center;gap:12px}
+    .rpt-bar{width:5px;height:34px;border-radius:3px;background:linear-gradient(180deg,#7dd3fc,#2dd4bf)}
+    .rpt-title{color:#f0f9ff;font-size:15px;font-weight:800;letter-spacing:-.2px}
+    .rpt-sub{color:rgba(186,230,253,.7);font-size:12px;margin-top:2px}
+    .rpt-year{background:rgba(255,255,255,.18);border:1.5px solid rgba(125,211,252,.4);
+      color:#e0f2fe;padding:6px 20px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap}
+
+    /* ── TABLE ── */
+    .tscroll{overflow-x:auto}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+    .t-hosp{min-width:1180px}
+    .t-hpht{min-width:1100px}
+    .th-info{background:linear-gradient(180deg,#075985,#0369a1);color:#bae6fd;
+      font-size:13px;font-weight:700;padding:11px 14px;
+      border-bottom:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.07)}
+    .th-hb{background:linear-gradient(180deg,#0284c7,#0ea5e9);color:#fff;text-align:center;
+      padding:11px 10px;font-weight:800;border-bottom:1px solid rgba(255,255,255,.12);border-right:1px solid rgba(255,255,255,.08)}
+    .th-hc{background:linear-gradient(180deg,#0d9488,#14b8a6);color:#fff;text-align:center;
+      padding:11px 10px;font-weight:800;border-bottom:1px solid rgba(255,255,255,.12);border-right:1px solid rgba(255,255,255,.08)}
+    .th-sb{background:#0369a1;color:#bae6fd;font-size:11.5px;font-weight:700;text-align:center;
+      padding:8px 10px;border-bottom:2.5px solid #38bdf8;border-right:1px solid rgba(255,255,255,.07);letter-spacing:.3px}
+    .th-sc{background:#0f766e;color:#99f6e4;font-size:11.5px;font-weight:700;text-align:center;
+      padding:8px 10px;border-bottom:2.5px solid #2dd4bf;border-right:1px solid rgba(255,255,255,.07);letter-spacing:.3px}
+    /* hpht-specific th */
+    .th-hpht{background:linear-gradient(180deg,#0f766e,#0d9488);color:#ccfbf1;
+      font-size:13px;font-weight:700;padding:11px 14px;
+      border-bottom:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.07)}
+    td{padding:9px 12px;border-bottom:1px solid #e0f2fe;border-right:1px solid #e0f2fe;
+      text-align:center;white-space:nowrap;transition:background .1s}
+    td:last-child{border-right:none}
+    .td-name{text-align:left;font-weight:700;color:var(--s1);padding-left:16px;min-width:200px}
+    .td-hpht{text-align:left;font-weight:700;color:var(--t2);padding-left:16px;min-width:190px}
+    .td-dist{text-align:left;color:var(--s3);font-size:12.5px;padding-left:14px}
+    .td-num{font-variant-numeric:tabular-nums;color:#0c4a6e}
+    tbody tr:nth-child(even) td{background:#f8fbff}
+    tbody tr:hover td{background:var(--s9)!important}
+    .sep-l{border-left:2px solid #bae6fd!important}
+    tr.tot td{background:linear-gradient(90deg,var(--s9),var(--t8))!important;
+      font-weight:800;border-top:2.5px solid var(--s4);color:var(--s1)}
+    .rank{display:inline-flex;align-items:center;justify-content:center;
+      width:22px;height:22px;background:var(--s8);color:var(--s2);
+      border-radius:6px;font-size:11px;font-weight:800;margin-right:8px}
+    .rank-t{background:var(--t7);color:var(--t2)}
+    .rpill{display:inline-flex;align-items:center;justify-content:center;
+      min-width:58px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.3px}
+    .rg{background:var(--rg-bg);color:var(--rg-tx)}
+    .ry{background:var(--ry-bg);color:var(--ry-tx)}
+    .ro{background:var(--ro-bg);color:var(--ro-tx)}
+    .rr{background:var(--rr-bg);color:var(--rr-tx)}
+    .cg{background:var(--rg-bg);color:var(--rg-tx)}
+    .cy{background:var(--ry-bg);color:var(--ry-tx)}
+    .co{background:var(--ro-bg);color:var(--ro-tx)}
+    .cr{background:var(--rr-bg);color:var(--rr-tx)}
+    .nd{color:#93c5fd}
+
+    /* ── LOCKED SCREEN ── */
+    .locked-box{text-align:center;padding:64px 24px;background:var(--card);
+      border-radius:var(--r);border:1.5px solid var(--bdr);box-shadow:var(--sh)}
+    .locked-icon{font-size:48px;margin-bottom:16px;line-height:1}
+    .locked-box h3{font-size:18px;font-weight:800;color:var(--s1);margin-bottom:8px}
+    .locked-box p{color:var(--gray);margin-bottom:24px;font-size:14px}
+    .import-drop{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;
+      border:2px dashed var(--s5);border-radius:12px;padding:20px 12px;cursor:pointer;
+      background:var(--s9);color:var(--s2);font-weight:600;text-align:center;min-height:76px;
+      font-size:13px;transition:border-color .15s,background .15s;width:100%}
+    .import-drop:hover{border-color:var(--s3);background:#e0f2fe}
+    .import-drop.loaded{border-color:var(--t4);background:var(--t8);color:var(--t2);border-style:solid}
+    code{background:#e0f2fe;color:#0369a1;padding:2px 6px;border-radius:4px;font-size:12px;font-family:monospace}
+
+    /* ── RECORDS TOGGLE ── */
+    .rec-toggle{display:flex;align-items:center;gap:12px;padding:13px 18px;background:var(--card);
+      border-radius:var(--rsm);border:1.5px solid var(--bdr);cursor:pointer;margin-bottom:12px;
+      user-select:none;box-shadow:var(--sh);transition:border-color .2s}
+    .rec-toggle:hover{border-color:var(--s4)}
+    .rec-arrow{width:26px;height:26px;background:var(--s8);color:var(--s2);border-radius:8px;
+      display:flex;align-items:center;justify-content:center;font-size:11px;transition:transform .25s}
+    .rec-toggle.open .rec-arrow{transform:rotate(90deg)}
+    .rec-title{font-weight:700;color:var(--s1);font-size:14px}
+    .rec-badge{margin-left:auto;background:var(--s8);color:var(--s2);
+      font-size:12px;font-weight:700;padding:3px 12px;border-radius:999px;border:1px solid var(--s6)}
+    .rec-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+      overflow:hidden;margin-bottom:20px;border:1.5px solid var(--bdr)}
+
+    /* ── LEGEND ── */
+    .legend{padding:10px 20px 14px;display:flex;flex-wrap:wrap;gap:10px;
+      border-top:1px solid var(--bdr2);font-size:12px;color:var(--gray);align-items:center}
+
+    /* ── MODAL ── */
+    .modal{position:fixed;inset:0;background:rgba(7,89,133,.4);backdrop-filter:blur(8px);
+      display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+    .modal-card{background:var(--card);border-radius:24px;max-width:860px;width:100%;
+      max-height:92vh;overflow-y:auto;box-shadow:var(--sh-modal);border:1.5px solid var(--bdr);
+      animation:popIn .25s cubic-bezier(.22,.68,0,1.15)}
+    @keyframes popIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:none}}
+    .modal-hd{padding:20px 26px;border-radius:24px 24px 0 0;
+      display:flex;align-items:center;justify-content:space-between}
+    .modal-hd.hosp{background:linear-gradient(135deg,var(--s1),var(--s3),var(--t2))}
+    .modal-hd.hpht{background:linear-gradient(135deg,var(--t1),var(--t3),var(--s3))}
+    .modal-title{color:#f0f9ff;font-size:17px;font-weight:800}
+    .modal-x{width:34px;height:34px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+      border-radius:10px;color:rgba(255,255,255,.9);font-size:16px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;transition:background .15s}
+    .modal-x:hover{background:rgba(255,255,255,.25)}
+    .modal-body{padding:24px 26px 28px}
+    .fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .fld{display:flex;flex-direction:column;gap:5px}
+    .fld-lbl{font-size:11.5px;font-weight:700;color:var(--s2);letter-spacing:.5px;text-transform:uppercase}
+    .fld-lbl .req{color:#ef4444;margin-left:2px}
+    input,select,textarea{width:100%;border:1.5px solid var(--s7);border-radius:var(--rxs);
+      padding:9px 12px;font:inherit;font-size:13px;color:var(--s1);background:var(--s9);
+      transition:border-color .15s,box-shadow .15s}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--s4);background:#fff;
+      box-shadow:0 0 0 3px rgba(14,165,233,.14)}
+    input[readonly]{background:#e0f2fe;color:var(--s2)}
+    .seg-blk{grid-column:1/-1;border-radius:14px;padding:16px 18px}
+    .seg-blk.b{background:#f0f9ff;border:1.5px solid var(--s6)}
+    .seg-blk.c{background:var(--t8);border:1.5px solid var(--t6)}
+    .seg-title{font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    .seg-blk.b .seg-title{color:var(--s2)}
+    .seg-blk.c .seg-title{color:var(--t2)}
+    .seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .form-actions{grid-column:1/-1;display:flex;gap:10px;padding-top:14px;border-top:1.5px solid var(--bdr);margin-top:4px}
+
+    /* ── LOGIN MODAL ── */
+    .login-top-m{padding:32px 28px 24px;border-radius:24px 24px 0 0;text-align:center;position:relative;overflow:hidden;
+      background:linear-gradient(135deg,#0369a1,#0284c7,#0ea5e9 80%,#06b6d4 100%)}
+    .login-top-m::before{content:'';position:absolute;top:-50px;right:-40px;width:150px;height:150px;
+      border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18) 0%,transparent 65%);pointer-events:none}
+    .login-icon-m{width:60px;height:60px;border-radius:16px;margin:0 auto 12px;
+      background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.3);
+      display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;z-index:1}
+    .login-top-m h2{color:#fff;font-size:17px;font-weight:800;position:relative;z-index:1}
+    .login-top-m p{color:rgba(255,255,255,.75);font-size:13px;margin-top:4px;position:relative;z-index:1}
+    .login-body-m{padding:24px 28px 28px}
+    .lf{margin-bottom:16px}
+    .ll{display:block;font-size:11.5px;font-weight:700;color:var(--s2);
+      letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+    .li{width:100%;border:1.5px solid #bae6fd;border-radius:10px;
+      padding:11px 42px 11px 14px;font:inherit;font-size:14px;color:var(--s1);
+      background:#f0f9ff;transition:border-color .15s,box-shadow .15s}
+    .li:focus{outline:none;border-color:var(--s4);background:#fff;box-shadow:0 0 0 3px rgba(14,165,233,.14)}
+    .liw{position:relative}
+    .eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      background:none;border:none;cursor:pointer;color:#7dd3fc;font-size:16px;padding:2px}
+    .eye-btn:hover{color:var(--s2)}
+    .login-submit{width:100%;padding:13px;border:none;border-radius:12px;
+      background:linear-gradient(135deg,var(--s2),var(--s4));color:#fff;font:inherit;
+      font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(2,132,199,.32);
+      transition:transform .15s,filter .15s;margin-top:4px}
+    .login-submit:hover{transform:translateY(-2px);filter:brightness(1.07)}
+    .login-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .login-err{background:#fff0f0;border:1.5px solid #fca5a5;border-radius:8px;
+      color:#b91c1c;font-size:13px;font-weight:600;padding:10px 14px;margin-top:12px;display:none}
+
+    /* ── TOAST ── */
+    .toast{position:fixed;right:20px;bottom:20px;min-width:200px;background:var(--s1);
+      color:#e0f2fe;padding:13px 20px;border-radius:14px;display:none;z-index:200;
+      font-weight:600;font-size:13.5px;box-shadow:0 8px 30px rgba(3,105,161,.32);
+      border-left:4px solid var(--s4);animation:slideR .25s}
+    @keyframes slideR{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+
+    @media(max-width:900px){.stats-bar{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.hero{flex-direction:column;align-items:flex-start}
+      .fg,.seg3{grid-template-columns:1fr 1fr}.app{padding:12px 10px}
+      .stats-bar{grid-template-columns:1fr 1fr}}
+    @media print{.toolbar,.stats-bar,.tab-nav,.rec-toggle,#adminSection,.modal,.toast{display:none!important}
+      .report-card{box-shadow:none;border:1px solid #ccc}}
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-stripe"></div>
+    <div class="hero-inner">
+      <div class="hero-icon">🩸</div>
+      <div>
+        <h1>ระบบบันทึกและรายงานการคัดกรองไวรัสตับอักเสบ B และ C</h1>
+        <div class="hero-chips">
+          <span class="hchip">📍 จังหวัดร้อยเอ็ด</span>
+          <span class="hchip">🏥 20 โรงพยาบาล</span>
+          <span class="hchip">🏡 รพ.สต.</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="live-pill"><div class="dot"></div>พร้อมใช้งาน</div>
+      <div class="hero-auth">
+        <button class="btn-hero" id="heroLoginBtn" onclick="openLoginModal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          เข้าสู่ระบบ
+        </button>
+        <span class="user-tag" id="userTag" style="display:none">👤 <span id="userNameDisplay"></span></span>
+        <button class="btn-hero" id="heroLogoutBtn" style="display:none;opacity:.8" onclick="doLogout()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav">
+    <button class="tab-btn hosp active" data-tab="hosp" onclick="switchTab('hosp')">
+      🏥 โรงพยาบาล
+    </button>
+    <button class="tab-btn hpht" data-tab="hpht" onclick="switchTab('hpht')">
+      🏡 รพ.สต. <span class="tab-lock" id="hphtLockIcon">🔒</span>
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- TAB 1: โรงพยาบาล                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div id="tabHosp">
+
+    <div class="toolbar">
+      <button class="btn btn-teal" id="addHospBtn" style="display:none" onclick="openHospForm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        บันทึกข้อมูลใหม่
+      </button>
+      <button class="btn btn-sky" id="hospImportBtn" style="display:none" onclick="openImport43('hosp')">
+        📥 นำเข้า 43 แฟ้ม
+      </button>
+      <button class="btn btn-sky" onclick="loadHospData()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        โหลดข้อมูล
+      </button>
+      <div class="sep"></div>
+      <div class="year-pill">
+        <label>📅 ปีงบประมาณ</label>
+        <select id="yearFilterH" onchange="renderHospReport()">
+          <option value="2569">2569</option><option value="2568">2568</option>
+          <option value="2567">2567</option><option value="2566">2566</option>
+        </select>
+      </div>
+      <div class="sep"></div>
+      <button class="btn btn-gray" onclick="exportHospCSV()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+      <button class="btn btn-gray" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        พิมพ์
+      </button>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-icon si-a">🏥</div><div><div class="stat-val">20</div><div class="stat-lbl">โรงพยาบาลทั้งหมด</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-b">🔵</div><div><div class="stat-val" id="stHBs">—</div><div class="stat-lbl">Hep B ตรวจรวม</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-c">🟢</div><div><div class="stat-val" id="stHCs">—</div><div class="stat-lbl">Hep C ตรวจรวม</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-d">📋</div><div><div class="stat-val" id="stHRec">0</div><div class="stat-lbl">รายการทั้งหมด</div></div></div>
+    </div>
+
+    <div class="report-card">
+      <div class="rpt-hd hosp">
+        <div class="rpt-hd-l"><div class="rpt-bar"></div>
+          <div>
+            <div class="rpt-title">การคัดกรอง รายโรงพยาบาล — จังหวัดร้อยเอ็ด</div>
+            <div class="rpt-sub">ดึงข้อมูลจาก Google Sheets</div>
+          </div>
+        </div>
+        <div class="rpt-year">ปี <span id="reportYearH">2569</span></div>
+      </div>
+      <div class="tscroll">
+        <table class="t-hosp">
+          <thead>
+            <tr>
+              <th rowspan="2" class="th-info" style="text-align:left;padding-left:16px;min-width:205px">โรงพยาบาล</th>
+              <th rowspan="2" class="th-info" style="text-align:left;padding-left:14px;min-width:120px">อำเภอ</th>
+              <th colspan="6" class="th-hb">🔵 &nbsp;ไวรัสตับอักเสบ B</th>
+              <th colspan="6" class="th-hc sep-l">🟢 &nbsp;ไวรัสตับอักเสบ C</th>
+            </tr>
+            <tr>
+              <th class="th-sb">เป้าหมาย</th><th class="th-sb">ตรวจ</th><th class="th-sb">บวก</th>
+              <th class="th-sb">ลบ</th><th class="th-sb">% ตรวจ</th><th class="th-sb">% บวก</th>
+              <th class="th-sc sep-l">เป้าหมาย</th><th class="th-sc">ตรวจ</th><th class="th-sc">บวก</th>
+              <th class="th-sc">ลบ</th><th class="th-sc">% ตรวจ</th><th class="th-sc">% บวก</th>
+            </tr>
+          </thead>
+          <tbody id="hospReportBody">
+            <tr><td colspan="14" style="padding:40px;color:#7dd3fc;text-align:center">กดปุ่ม <strong>โหลดข้อมูล</strong> เพื่อดึงข้อมูลจาก Google Sheets</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <strong style="color:var(--s2)">% ตรวจ:</strong>
+        <span class="rpill cg" style="min-width:auto;padding:2px 10px">≥ 80%</span>
+        <span class="rpill cy" style="min-width:auto;padding:2px 10px">60–80%</span>
+        <span class="rpill co" style="min-width:auto;padding:2px 10px">40–60%</span>
+        <span class="rpill cr" style="min-width:auto;padding:2px 10px">&lt; 40%</span>
+        &nbsp;&nbsp;<strong style="color:var(--t2)">% บวก:</strong>
+        <span class="rpill rg" style="min-width:auto;padding:2px 10px">&lt; 1%</span>
+        <span class="rpill ry" style="min-width:auto;padding:2px 10px">1–2%</span>
+        <span class="rpill ro" style="min-width:auto;padding:2px 10px">2–4%</span>
+        <span class="rpill rr" style="min-width:auto;padding:2px 10px">&gt; 4%</span>
+      </div>
+    </div>
+
+    <!-- admin: records section -->
+    <div id="hospAdminSection" style="display:none">
+      <div class="rec-toggle" id="hospRecBtn" onclick="toggleHospRecs()">
+        <div class="rec-arrow">▶</div>
+        <span class="rec-title">จัดการข้อมูลรายการ (โรงพยาบาล)</span>
+        <span class="rec-badge" id="hospRecsBadge">— คลิกเพื่อแสดง</span>
+      </div>
+      <div id="hospRecsSection" style="display:none">
+        <div class="rec-card">
+          <div class="tscroll">
+            <table>
+              <thead><tr>
+                <th class="th-info" style="text-align:center">ปี</th>
+                <th class="th-info" style="text-align:left;padding-left:14px">โรงพยาบาล</th>
+                <th class="th-info">อำเภอ</th>
+                <th class="th-info">B ตรวจ</th><th class="th-info">B บวก</th>
+                <th class="th-info">C ตรวจ</th><th class="th-info">C บวก</th>
+                <th class="th-info">วันที่</th><th class="th-info">ผู้บันทึก</th><th class="th-info">จัดการ</th>
+              </tr></thead>
+              <tbody id="hospRecsTbody"><tr><td colspan="10" style="padding:24px;color:#7dd3fc">ยังไม่มีข้อมูล</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tabHosp -->
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- TAB 2: รพ.สต.                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div id="tabHpht" style="display:none">
+
+    <!-- Locked (ยังไม่ login) -->
+    <div id="hphtLocked" class="locked-box">
+      <div class="locked-icon">🔒</div>
+      <h3>กรุณาเข้าสู่ระบบ</h3>
+      <p>ข้อมูล รพ.สต. สำหรับผู้มีสิทธิ์บันทึกเท่านั้น</p>
+      <button class="btn btn-sky" onclick="openLoginModal()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        เข้าสู่ระบบ
+      </button>
+    </div>
+
+    <!-- Unlocked (login แล้ว) -->
+    <div id="hphtUnlocked" style="display:none">
+
+      <div class="toolbar">
+        <button class="btn btn-teal" onclick="openHphtForm()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          บันทึกข้อมูล รพ.สต.
+        </button>
+        <button class="btn btn-sky" onclick="loadHphtData()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          โหลดข้อมูล
+        </button>
+        <div class="sep"></div>
+        <div class="year-pill year-pill-t">
+          <label>📅 ปีงบประมาณ</label>
+          <select id="yearFilterHT" onchange="renderHphtTable()">
+            <option value="">ทุกปี</option>
+            <option value="2569">2569</option><option value="2568">2568</option>
+            <option value="2567">2567</option><option value="2566">2566</option>
+          </select>
+        </div>
+        <div class="sep"></div>
+        <div class="year-pill year-pill-t">
+          <label>🗺 อำเภอ</label>
+          <select id="distFilterHT" onchange="renderHphtTable()">
+            <option value="">ทุกอำเภอ</option>
+          </select>
+        </div>
+        <div class="sep"></div>
+        <button class="btn btn-gray" onclick="exportHphtCSV()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="btn btn-sky" onclick="openImport43('hpht')">
+          📥 นำเข้า 43 แฟ้ม
+        </button>
+      </div>
+
+      <!-- stats -->
+      <div class="stats-bar">
+        <div class="stat-card"><div class="stat-icon si-c">🏡</div><div><div class="stat-val" id="stHTRec">0</div><div class="stat-lbl">รายการ รพ.สต. ทั้งหมด</div></div></div>
+        <div class="stat-card"><div class="stat-icon si-b">🔵</div><div><div class="stat-val" id="stHTBs">—</div><div class="stat-lbl">Hep B ตรวจรวม</div></div></div>
+        <div class="stat-card"><div class="stat-icon si-c">🟢</div><div><div class="stat-val" id="stHTCs">—</div><div class="stat-lbl">Hep C ตรวจรวม</div></div></div>
+        <div class="stat-card"><div class="stat-icon si-d">🗺</div><div><div class="stat-val" id="stHTDist">—</div><div class="stat-lbl">อำเภอที่รายงาน</div></div></div>
+      </div>
+
+      <!-- records table -->
+      <div class="report-card">
+        <div class="rpt-hd hpht">
+          <div class="rpt-hd-l"><div class="rpt-bar"></div>
+            <div>
+              <div class="rpt-title">ข้อมูล รพ.สต. — จังหวัดร้อยเอ็ด</div>
+              <div class="rpt-sub">บันทึกโดยผู้มีสิทธิ์ · <span id="hphtFilterLabel">ทุกปี · ทุกอำเภอ</span></div>
+            </div>
+          </div>
+          <div class="rpt-year" style="background:rgba(255,255,255,.18);border-color:rgba(94,234,212,.4)">
+            <span id="hphtRecCount">0</span> รายการ
+          </div>
+        </div>
+        <div class="tscroll">
+          <table class="t-hpht">
+            <thead>
+              <tr>
+                <th class="th-hpht" style="text-align:center;min-width:40px">#</th>
+                <th class="th-hpht" style="text-align:center">ปี</th>
+                <th class="th-hpht" style="text-align:left;padding-left:14px;min-width:120px">อำเภอ</th>
+                <th class="th-hpht" style="text-align:left;padding-left:14px;min-width:200px">ชื่อ รพ.สต.</th>
+                <th class="th-hpht">รหัส</th>
+                <th class="th-hpht">เป้าหมาย</th>
+                <th colspan="3" class="th-hb">🔵 Hep B</th>
+                <th colspan="3" class="th-hc sep-l">🟢 Hep C</th>
+                <th class="th-hpht">% B บวก</th>
+                <th class="th-hpht sep-l">% C บวก</th>
+                <th class="th-hpht">วันที่</th>
+                <th class="th-hpht">ผู้บันทึก</th>
+                <th class="th-hpht">จัดการ</th>
+              </tr>
+              <tr>
+                <th class="th-sc" colspan="6"></th>
+                <th class="th-sb">ตรวจ</th><th class="th-sb">บวก</th><th class="th-sb">ลบ</th>
+                <th class="th-sc sep-l">ตรวจ</th><th class="th-sc">บวก</th><th class="th-sc">ลบ</th>
+                <th class="th-hpht" colspan="4"></th>
+              </tr>
+            </thead>
+            <tbody id="hphtTbody">
+              <tr><td colspan="17" style="padding:40px;color:#5eead4;text-align:center">กดปุ่ม <strong>โหลดข้อมูล</strong> เพื่อดึงข้อมูล รพ.สต.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="legend">
+          <strong style="color:var(--t2)">% บวก:</strong>
+          <span class="rpill rg" style="min-width:auto;padding:2px 10px">&lt; 1%</span>
+          <span class="rpill ry" style="min-width:auto;padding:2px 10px">1–2%</span>
+          <span class="rpill ro" style="min-width:auto;padding:2px 10px">2–4%</span>
+          <span class="rpill rr" style="min-width:auto;padding:2px 10px">&gt; 4%</span>
+        </div>
+      </div>
+
+    </div><!-- /hphtUnlocked -->
+  </div><!-- /tabHpht -->
+
+</div><!-- /app -->
+
+<!-- ── MODALS ── -->
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-card" style="max-width:440px">
+    <div class="login-top-m">
+      <div class="login-icon-m">🩸</div>
+      <h2>เข้าสู่ระบบ</h2>
+      <p>สำหรับผู้มีสิทธิ์บันทึกข้อมูล</p>
+      <button class="modal-x" style="position:absolute;top:16px;right:16px" onclick="closeLoginModal()">✕</button>
+    </div>
+    <div class="login-body-m">
+      <form onsubmit="doLogin(event)">
+        <div class="lf"><label class="ll">ชื่อผู้ใช้</label>
+          <div class="liw"><input id="loginUser" class="li" type="text" placeholder="Username" autocomplete="username" required></div>
+        </div>
+        <div class="lf"><label class="ll">รหัสผ่าน</label>
+          <div class="liw">
+            <input id="loginPass" class="li" type="password" placeholder="Password" autocomplete="current-password" required>
+            <button type="button" class="eye-btn" onclick="togglePw()">👁</button>
+          </div>
+        </div>
+        <button class="login-submit" type="submit" id="loginBtn">เข้าสู่ระบบ</button>
+        <div class="login-err" id="loginErr"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Hospital Form Modal -->
+<div class="modal" id="hospModal">
+  <div class="modal-card">
+    <div class="modal-hd hosp">
+      <span class="modal-title" id="hospFormTitle">บันทึกข้อมูลโรงพยาบาล</span>
+      <button class="modal-x" onclick="closeHospForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="hospForm" class="fg" onsubmit="saveHospRecord(event)">
+        <input type="hidden" id="hid">
+        <div class="fld"><label class="fld-lbl">ปีงบประมาณ <span class="req">*</span></label><input id="h_fiscal_year" required placeholder="2569"></div>
+        <div class="fld"><label class="fld-lbl">โรงพยาบาล <span class="req">*</span></label>
+          <select id="h_hospital_select" onchange="onHospChange()"><option value="">— เลือก —</option></select>
+        </div>
+        <div class="fld"><label class="fld-lbl">อำเภอ</label><input id="h_district" readonly></div>
+        <div class="fld"><label class="fld-lbl">รหัสหน่วยบริการ</label><input id="h_service_unit_code"></div>
+        <div class="fld"><label class="fld-lbl">ชื่อหน่วยบริการ</label><input id="h_service_unit_name" readonly></div>
+        <div class="fld"><label class="fld-lbl">กลุ่มเป้าหมาย</label><input type="number" id="h_target_group" min="0" placeholder="0"></div>
+        <div class="fld"><label class="fld-lbl">วันที่รายงาน <span class="req">*</span></label><input type="date" id="h_report_date" required></div>
+        <div class="fld"><label class="fld-lbl">ผู้บันทึก</label><input id="h_recorder_name" placeholder="ชื่อ-สกุล"></div>
+        <div></div>
+        <div class="seg-blk b"><div class="seg-title">🔵 ไวรัสตับอักเสบ B</div><div class="seg3">
+          <div class="fld"><label class="fld-lbl">ตรวจ</label><input type="number" id="h_hep_b_screened" min="0" oninput="autoCalcH()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">บวก</label><input type="number" id="h_hep_b_positive" min="0" oninput="autoCalcH()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">ลบ (อัตโนมัติ)</label><input type="number" id="h_hep_b_negative" min="0" readonly></div>
+        </div></div>
+        <div class="seg-blk c"><div class="seg-title">🟢 ไวรัสตับอักเสบ C</div><div class="seg3">
+          <div class="fld"><label class="fld-lbl">ตรวจ</label><input type="number" id="h_hep_c_screened" min="0" oninput="autoCalcH()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">บวก</label><input type="number" id="h_hep_c_positive" min="0" oninput="autoCalcH()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">ลบ (อัตโนมัติ)</label><input type="number" id="h_hep_c_negative" min="0" readonly></div>
+        </div></div>
+        <div class="fld" style="grid-column:1/-1"><label class="fld-lbl">หมายเหตุ</label><textarea id="h_remark" rows="2"></textarea></div>
+        <div class="form-actions">
+          <button class="btn btn-teal" type="submit">💾 บันทึก</button>
+          <button class="btn btn-gray" type="button" onclick="closeHospForm()">ยกเลิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- รพ.สต. Form Modal -->
+<div class="modal" id="hphtModal">
+  <div class="modal-card">
+    <div class="modal-hd hpht">
+      <span class="modal-title" id="hphtFormTitle">บันทึกข้อมูล รพ.สต.</span>
+      <button class="modal-x" onclick="closeHphtForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="hphtForm" class="fg" onsubmit="saveHphtRecord(event)">
+        <input type="hidden" id="htid">
+        <div class="fld"><label class="fld-lbl">ปีงบประมาณ <span class="req">*</span></label><input id="ht_fiscal_year" required placeholder="2569"></div>
+        <div class="fld"><label class="fld-lbl">อำเภอ <span class="req">*</span></label>
+          <select id="ht_district" required><option value="">— เลือกอำเภอ —</option></select>
+        </div>
+        <div class="fld"><label class="fld-lbl">รหัส รพ.สต.</label><input id="ht_hpht_code" placeholder="รหัส"></div>
+        <div class="fld" style="grid-column:span 2"><label class="fld-lbl">ชื่อ รพ.สต. <span class="req">*</span></label><input id="ht_hpht_name" required placeholder="ชื่อ รพ.สต."></div>
+        <div class="fld"><label class="fld-lbl">กลุ่มเป้าหมาย</label><input type="number" id="ht_target_group" min="0" placeholder="0"></div>
+        <div class="fld"><label class="fld-lbl">วันที่รายงาน <span class="req">*</span></label><input type="date" id="ht_report_date" required></div>
+        <div class="fld"><label class="fld-lbl">ผู้บันทึก</label><input id="ht_recorder_name" placeholder="ชื่อ-สกุล"></div>
+        <div></div>
+        <div class="seg-blk b"><div class="seg-title">🔵 ไวรัสตับอักเสบ B</div><div class="seg3">
+          <div class="fld"><label class="fld-lbl">ตรวจ</label><input type="number" id="ht_hep_b_screened" min="0" oninput="autoCalcHT()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">บวก</label><input type="number" id="ht_hep_b_positive" min="0" oninput="autoCalcHT()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">ลบ (อัตโนมัติ)</label><input type="number" id="ht_hep_b_negative" min="0" readonly></div>
+        </div></div>
+        <div class="seg-blk c"><div class="seg-title">🟢 ไวรัสตับอักเสบ C</div><div class="seg3">
+          <div class="fld"><label class="fld-lbl">ตรวจ</label><input type="number" id="ht_hep_c_screened" min="0" oninput="autoCalcHT()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">บวก</label><input type="number" id="ht_hep_c_positive" min="0" oninput="autoCalcHT()" placeholder="0"></div>
+          <div class="fld"><label class="fld-lbl">ลบ (อัตโนมัติ)</label><input type="number" id="ht_hep_c_negative" min="0" readonly></div>
+        </div></div>
+        <div class="fld" style="grid-column:1/-1"><label class="fld-lbl">หมายเหตุ</label><textarea id="ht_remark" rows="2"></textarea></div>
+        <div class="form-actions">
+          <button class="btn btn-teal" type="submit">💾 บันทึก</button>
+          <button class="btn btn-gray" type="button" onclick="closeHphtForm()">ยกเลิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- 43 แฟ้ม Import Modal -->
+<div class="modal" id="import43Modal">
+  <div class="modal-card" style="max-width:760px">
+    <div class="modal-hd hosp">
+      <span class="modal-title">📥 นำเข้าข้อมูลจาก 43 แฟ้ม</span>
+      <button class="modal-x" onclick="closeImport43()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#f0f9ff;border:1.5px solid #7dd3fc;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#0369a1">
+        <strong>วิธีใช้:</strong> อัปโหลด <code>PERSON.txt</code> เพื่อนับกลุ่มเป้าหมาย (อายุ ≥ 33 ปี) และ <code>DIAG.txt</code> / <code>OPDX.txt</code> เพื่อนับการคัดกรองจากรหัสวินิจฉัย ICD-10 — รองรับ pipe (<code>|</code>), comma (<code>,</code>), tab
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:var(--s2);letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px">📁 PERSON.txt <span style="color:#ef4444">*</span></div>
+          <label class="import-drop" id="personDrop" onclick="document.getElementById('personFile').click()">
+            <span style="font-size:20px">👤</span>
+            <span id="personLabel">คลิกเพื่อเลือก PERSON.txt</span>
+          </label>
+          <input type="file" id="personFile" accept=".txt,.csv" style="display:none" onchange="onPersonFile(event)">
+          <div style="margin-top:5px;font-size:11.5px;color:#64748b">คอลัมน์: BIRTH / BIRTHDATE / DOB (YYYYMMDD)</div>
+        </div>
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:var(--s2);letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px">📁 DIAG.txt / OPDX.txt <span style="color:#ef4444">*</span></div>
+          <label class="import-drop" id="diagDrop" onclick="document.getElementById('diagFile').click()">
+            <span style="font-size:20px">🧬</span>
+            <span id="diagLabel">คลิกเพื่อเลือก DIAG.txt</span>
+          </label>
+          <input type="file" id="diagFile" accept=".txt,.csv" style="display:none" onchange="onDiagFile(event)">
+          <div style="margin-top:5px;font-size:11.5px;color:#64748b">คอลัมน์: DIAGCODE / ICD10 / DIAG (รหัส ICD-10)</div>
+        </div>
+      </div>
+
+      <details style="margin-bottom:14px">
+        <summary style="cursor:pointer;font-size:13px;font-weight:700;color:#0369a1;padding:8px 4px;user-select:none">⚙️ ตั้งค่ารหัส ICD-10 (คลิกเพื่อดู/แก้ไข)</summary>
+        <div style="padding:12px;background:#f8fbff;border-radius:10px;margin-top:6px;border:1px solid var(--bdr)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="fld"><label class="fld-lbl">HepB — รหัสที่นับว่า "ตรวจ" (screened)</label>
+              <textarea id="icdBScr" rows="3" style="font-size:12px;font-family:monospace;letter-spacing:.5px">Z11.5,Z11.51,B18.0,B18.1,B16,B16.0,B16.1,B16.2,B16.9,B17.0,B19.1</textarea></div>
+            <div class="fld"><label class="fld-lbl">HepB — รหัสที่นับว่า "บวก" (positive)</label>
+              <textarea id="icdBPos" rows="3" style="font-size:12px;font-family:monospace;letter-spacing:.5px">B18.0,B18.1,B16,B16.0,B16.1,B16.2,B16.9,B17.0,B19.1</textarea></div>
+            <div class="fld"><label class="fld-lbl">HepC — รหัสที่นับว่า "ตรวจ" (screened)</label>
+              <textarea id="icdCScr" rows="3" style="font-size:12px;font-family:monospace;letter-spacing:.5px">Z11.5,Z11.52,B18.2,B17.1,B19.2</textarea></div>
+            <div class="fld"><label class="fld-lbl">HepC — รหัสที่นับว่า "บวก" (positive)</label>
+              <textarea id="icdCPos" rows="3" style="font-size:12px;font-family:monospace;letter-spacing:.5px">B18.2,B17.1,B19.2</textarea></div>
+          </div>
+          <div style="margin-top:8px;font-size:11.5px;color:#64748b">หมายเหตุ: Z11.5 อาจถูกนับซ้ำใน HepB และ HepC — แยกด้วย Z11.51 (B) / Z11.52 (C) ถ้ามี</div>
+        </div>
+      </details>
+
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="font-size:13px;font-weight:700;color:#0369a1;white-space:nowrap">ปีอ้างอิง (ค.ศ.) คำนวณอายุ:</label>
+          <input id="import43Year" type="number" value="2026" min="2000" max="2100" style="width:85px;padding:7px 10px">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="font-size:13px;font-weight:700;color:#0369a1;white-space:nowrap">Encoding ไฟล์:</label>
+          <select id="import43Enc" style="padding:7px 10px;border-radius:8px;border:1.5px solid var(--s7);background:var(--s9);font:inherit;font-size:13px;color:var(--s1)">
+            <option value="utf-8">UTF-8</option>
+            <option value="tis-620">TIS-620 (ภาษาไทย)</option>
+            <option value="windows-874">Windows-874</option>
+          </select>
+        </div>
+        <button class="btn btn-sky" onclick="parseImport43()">🔍 วิเคราะห์ไฟล์</button>
+        <button class="btn btn-gray" style="padding:10px 14px" onclick="resetImport43()">🔄 รีเซ็ต</button>
+      </div>
+
+      <!-- Results -->
+      <div id="import43Result" style="display:none">
+        <div style="background:linear-gradient(135deg,#f0f9ff,#f0fdfa);border:1.5px solid #7dd3fc;border-radius:14px;padding:18px">
+          <div style="font-size:14px;font-weight:800;color:#075985;margin-bottom:14px">📊 ผลการวิเคราะห์</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px">
+            <div style="text-align:center;background:#fff;border-radius:10px;padding:12px 8px;border:1.5px solid #bae6fd">
+              <div style="font-size:22px;font-weight:800;color:#075985" id="r43Target">—</div>
+              <div style="font-size:11px;color:#64748b;margin-top:3px">กลุ่มเป้าหมาย<br>อายุ ≥ 33 ปี</div>
+            </div>
+            <div style="text-align:center;background:#fff;border-radius:10px;padding:12px 8px;border:1.5px solid #bae6fd">
+              <div style="font-size:22px;font-weight:800;color:#0284c7" id="r43BScr">—</div>
+              <div style="font-size:11px;color:#64748b;margin-top:3px">HepB<br>ตรวจ</div>
+            </div>
+            <div style="text-align:center;background:#fff;border-radius:10px;padding:12px 8px;border:1.5px solid #fca5a5">
+              <div style="font-size:22px;font-weight:800;color:#b91c1c" id="r43BPos">—</div>
+              <div style="font-size:11px;color:#64748b;margin-top:3px">HepB<br>บวก</div>
+            </div>
+            <div style="text-align:center;background:#fff;border-radius:10px;padding:12px 8px;border:1.5px solid #99f6e4">
+              <div style="font-size:22px;font-weight:800;color:#0d9488" id="r43CScr">—</div>
+              <div style="font-size:11px;color:#64748b;margin-top:3px">HepC<br>ตรวจ</div>
+            </div>
+            <div style="text-align:center;background:#fff;border-radius:10px;padding:12px 8px;border:1.5px solid #fca5a5">
+              <div style="font-size:22px;font-weight:800;color:#b91c1c" id="r43CPos">—</div>
+              <div style="font-size:11px;color:#64748b;margin-top:3px">HepC<br>บวก</div>
+            </div>
+          </div>
+          <div id="import43Info" style="font-size:12px;color:#475569;line-height:1.8;margin-bottom:12px;background:#fff;border-radius:8px;padding:10px 14px;border:1px solid #e0f2fe"></div>
+          <button class="btn btn-teal" onclick="applyImport43()">📋 นำข้อมูลไปกรอกในฟอร์ม</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API_URL     = 'https://script.google.com/macros/s/AKfycbwiE3Z2iT33tlyAPU1Kg_CRiyjXI0U0_gq78vgt3fmlFSVCNHGtpoe1RQc8-bl0VSbp/exec';
+  const SESSION_KEY = 'hepb_c_session';
+
+  let hospRecords = [];
+  let hphtRecords = [];
+  let loggedIn    = false;
+
+  const DISTRICTS = [
+    'เมืองร้อยเอ็ด','เกษตรวิสัย','ปทุมรัตต์','จตุรพักตรพิมาน','ธวัชบุรี',
+    'พนมไพร','โพนทอง','โพธิ์ชัย','หนองพอก','เสลภูมิ','สุวรรณภูมิ',
+    'เมืองสรวง','โพนทราย','อาจสามารถ','เมยวดี','ศรีสมเด็จ',
+    'จังหาร','เชียงขวัญ','หนองฮี','ทุ่งเขาหลวง',
+  ];
+
+  const HOSPITALS = [
+    {name:'โรงพยาบาลร้อยเอ็ด',        district:'เมืองร้อยเอ็ด'},
+    {name:'โรงพยาบาลเกษตรวิสัย',       district:'เกษตรวิสัย'},
+    {name:'โรงพยาบาลปทุมรัตต์',        district:'ปทุมรัตต์'},
+    {name:'โรงพยาบาลจตุรพักตรพิมาน',  district:'จตุรพักตรพิมาน'},
+    {name:'โรงพยาบาลธวัชบุรี',         district:'ธวัชบุรี'},
+    {name:'โรงพยาบาลพนมไพร',          district:'พนมไพร'},
+    {name:'โรงพยาบาลโพนทอง',          district:'โพนทอง'},
+    {name:'โรงพยาบาลโพธิ์ชัย',        district:'โพธิ์ชัย'},
+    {name:'โรงพยาบาลหนองพอก',         district:'หนองพอก'},
+    {name:'โรงพยาบาลเสลภูมิ',         district:'เสลภูมิ'},
+    {name:'โรงพยาบาลสุวรรณภูมิ',      district:'สุวรรณภูมิ'},
+    {name:'โรงพยาบาลเมืองสรวง',       district:'เมืองสรวง'},
+    {name:'โรงพยาบาลโพนทราย',         district:'โพนทราย'},
+    {name:'โรงพยาบาลอาจสามารถ',       district:'อาจสามารถ'},
+    {name:'โรงพยาบาลเมยวดี',          district:'เมยวดี'},
+    {name:'โรงพยาบาลศรีสมเด็จ',       district:'ศรีสมเด็จ'},
+    {name:'โรงพยาบาลจังหาร',          district:'จังหาร'},
+    {name:'โรงพยาบาลเชียงขวัญ',       district:'เชียงขวัญ'},
+    {name:'โรงพยาบาลหนองฮี',          district:'หนองฮี'},
+    {name:'โรงพยาบาลทุ่งเขาหลวง',    district:'ทุ่งเขาหลวง'},
+  ];
+
+  // ── INIT ──────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    initSelects();
+    const sess = sessionStorage.getItem(SESSION_KEY);
+    if (sess) applyLoginState(sess);
+    loadHospData();
+  });
+
+  function initSelects() {
+    // hospital select in form
+    const hs = document.getElementById('h_hospital_select');
+    HOSPITALS.forEach(h => hs.add(new Option(h.name, h.name)));
+    // district selects
+    [document.getElementById('ht_district'), document.getElementById('distFilterHT')]
+      .forEach(s => DISTRICTS.forEach(d => s.add(new Option(d, d))));
+  }
+
+  // ── TAB ───────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    document.getElementById('tabHosp').style.display = tab === 'hosp' ? '' : 'none';
+    document.getElementById('tabHpht').style.display = tab === 'hpht' ? '' : 'none';
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    if (tab === 'hpht' && loggedIn && hphtRecords.length === 0) loadHphtData();
+  }
+
+  // ── AUTH ──────────────────────────────────────────────────────────
+  function openLoginModal() {
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginErr').style.display = 'none';
+    document.getElementById('loginBtn').disabled = false;
+    document.getElementById('loginBtn').textContent = 'เข้าสู่ระบบ';
+    document.getElementById('loginModal').style.display = 'flex';
+  }
+  function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+
+  async function doLogin(e) {
+    e.preventDefault();
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value;
+    const btn = document.getElementById('loginBtn');
+    const err = document.getElementById('loginErr');
+    btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...'; err.style.display = 'none';
+    try {
+      const res = await api('login', {username: u, password: p});
+      if (res.success) {
+        sessionStorage.setItem(SESSION_KEY, u);
+        applyLoginState(u);
+        closeLoginModal();
+        toast('✅ เข้าสู่ระบบสำเร็จ');
+      } else {
+        err.textContent = res.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+        err.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+      }
+    } catch {
+      err.textContent = 'ไม่สามารถเชื่อมต่อได้';
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+    }
+  }
+
+  function doLogout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    loggedIn = false; hphtRecords = [];
+    document.getElementById('heroLoginBtn').style.display = '';
+    document.getElementById('userTag').style.display = 'none';
+    document.getElementById('heroLogoutBtn').style.display = 'none';
+    document.getElementById('addHospBtn').style.display = 'none';
+    document.getElementById('hospImportBtn').style.display = 'none';
+    document.getElementById('hospAdminSection').style.display = 'none';
+    document.getElementById('hphtLocked').style.display = '';
+    document.getElementById('hphtUnlocked').style.display = 'none';
+    document.getElementById('hphtLockIcon').style.display = '';
+    toast('ออกจากระบบแล้ว');
+  }
+
+  function applyLoginState(username) {
+    loggedIn = true;
+    document.getElementById('heroLoginBtn').style.display = 'none';
+    document.getElementById('userTag').style.display = '';
+    document.getElementById('userNameDisplay').textContent = username;
+    document.getElementById('heroLogoutBtn').style.display = '';
+    document.getElementById('addHospBtn').style.display = '';
+    document.getElementById('hospImportBtn').style.display = '';
+    document.getElementById('hospAdminSection').style.display = '';
+    document.getElementById('hphtLocked').style.display = 'none';
+    document.getElementById('hphtUnlocked').style.display = '';
+    document.getElementById('hphtLockIcon').style.display = 'none';
+  }
+
+  function togglePw() {
+    const p = document.getElementById('loginPass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+  }
+
+  // ── API ───────────────────────────────────────────────────────────
+  async function api(action, payload = {}) {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({action, ...payload}),
+      headers: {'Content-Type': 'text/plain;charset=utf-8'}
+    });
+    return res.json();
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // TAB 1: โรงพยาบาล
+  // ══════════════════════════════════════════════════════════════════
+
+  async function loadHospData() {
+    toast('⏳ กำลังดึงข้อมูลโรงพยาบาล...');
+    try {
+      const res = await api('list');
+      if (!res.success) { toast('❌ ' + (res.message || 'โหลดไม่สำเร็จ')); return; }
+      hospRecords = res.data || [];
+      renderHospReport(); renderHospRecs(); updateHospStats();
+      toast('✅ โหลดสำเร็จ — ' + hospRecords.length + ' รายการ');
+    } catch { toast('❌ ไม่สามารถเชื่อมต่อ Google Sheets'); }
+  }
+
+  function updateHospStats() {
+    const yr = hospRecords.filter(r => String(r.fiscal_year) === String(yearFilterH.value));
+    document.getElementById('stHBs').textContent  = fmt(yr.reduce((s,r) => s+n_(r.hep_b_screened),0));
+    document.getElementById('stHCs').textContent  = fmt(yr.reduce((s,r) => s+n_(r.hep_c_screened),0));
+    document.getElementById('stHRec').textContent = hospRecords.length;
+  }
+
+  function renderHospReport() {
+    const year = yearFilterH.value;
+    document.getElementById('reportYearH').textContent = year;
+    updateHospStats();
+    const yr  = hospRecords.filter(r => String(r.fiscal_year) === String(year));
+    const map = {};
+    yr.forEach(r => {
+      const k = (r.service_unit_name || r.district || '').trim(); if (!k) return;
+      if (!map[k]) map[k] = {name:k,district:r.district||'',tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0};
+      map[k].tgt+=n_(r.target_group); map[k].bs+=n_(r.hep_b_screened); map[k].bp+=n_(r.hep_b_positive); map[k].bn+=n_(r.hep_b_negative);
+      map[k].cs+=n_(r.hep_c_screened); map[k].cp+=n_(r.hep_c_positive); map[k].cn+=n_(r.hep_c_negative);
+    });
+    const rows = HOSPITALS.map(h => map[h.name]||{name:h.name,district:h.district,tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
+    Object.keys(map).forEach(k => { if(!HOSPITALS.find(h=>h.name===k)) rows.push(map[k]); });
+    const tot = rows.reduce((t,r)=>({bs:t.bs+r.bs,bp:t.bp+r.bp,bn:t.bn+r.bn,cs:t.cs+r.cs,cp:t.cp+r.cp,cn:t.cn+r.cn}),{bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
+    document.getElementById('hospReportBody').innerHTML = rows.map((r,i)=>hospRowHtml(r,i)).join('') + hospTotHtml(tot);
+  }
+
+  function hospRowHtml(r,i) {
+    const bP=pct(r.bp,r.bs),cP=pct(r.cp,r.cs),bS=pct(r.bs,r.tgt),cS=pct(r.cs,r.tgt);
+    const hB=r.bs>0,hC=r.cs>0,hT=r.tgt>0;
+    return `<tr>
+      <td class="td-name"><span class="rank">${i+1}</span>${r.name}</td>
+      <td class="td-dist">${r.district}</td>
+      <td class="nd">${hT?fmt(r.tgt):'—'}</td>
+      <td class="td-num">${hB?fmt(r.bs):'<span class="nd">—</span>'}</td>
+      <td class="td-num">${hB?fmt(r.bp):'<span class="nd">—</span>'}</td>
+      <td class="td-num">${hB?fmt(r.bn):'<span class="nd">—</span>'}</td>
+      <td>${hT&&hB?`<span class="rpill ${scrC(bS)}">${bS.toFixed(1)}%</span>`:'<span class="nd">—</span>'}</td>
+      <td>${hB?`<span class="rpill ${posC(bP)}">${bP.toFixed(2)}%</span>`:'<span class="nd">—</span>'}</td>
+      <td class="sep-l nd">${hT?fmt(r.tgt):'—'}</td>
+      <td class="td-num">${hC?fmt(r.cs):'<span class="nd">—</span>'}</td>
+      <td class="td-num">${hC?fmt(r.cp):'<span class="nd">—</span>'}</td>
+      <td class="td-num">${hC?fmt(r.cn):'<span class="nd">—</span>'}</td>
+      <td>${hT&&hC?`<span class="rpill ${scrC(cS)}">${cS.toFixed(1)}%</span>`:'<span class="nd">—</span>'}</td>
+      <td>${hC?`<span class="rpill ${posC(cP)}">${cP.toFixed(2)}%</span>`:'<span class="nd">—</span>'}</td>
+    </tr>`;
+  }
+
+  function hospTotHtml(t) {
+    const bP=pct(t.bp,t.bs),cP=pct(t.cp,t.cs);
+    return `<tr class="tot">
+      <td class="td-name" colspan="2">🏥 รวมจังหวัดร้อยเอ็ด</td>
+      <td>—</td><td class="td-num">${fmt(t.bs)}</td><td class="td-num">${fmt(t.bp)}</td><td class="td-num">${fmt(t.bn)}</td><td>—</td>
+      <td><span class="rpill ${posC(bP)}">${bP.toFixed(2)}%</span></td>
+      <td class="sep-l">—</td><td class="td-num">${fmt(t.cs)}</td><td class="td-num">${fmt(t.cp)}</td><td class="td-num">${fmt(t.cn)}</td><td>—</td>
+      <td><span class="rpill ${posC(cP)}">${cP.toFixed(2)}%</span></td>
+    </tr>`;
+  }
+
+  function renderHospRecs() {
+    document.getElementById('hospRecsBadge').textContent = hospRecords.length ? `${hospRecords.length} รายการ` : '— คลิกเพื่อแสดง';
+    document.getElementById('hospRecsTbody').innerHTML = hospRecords.length
+      ? hospRecords.map(r => `<tr>
+          <td style="font-weight:700;color:var(--s1)">${r.fiscal_year||''}</td>
+          <td class="td-name" style="padding-left:14px">${r.service_unit_name||''}</td>
+          <td class="td-dist">${r.district||''}</td>
+          <td class="td-num">${fmt(r.hep_b_screened)}</td><td class="td-num">${fmt(r.hep_b_positive)}</td>
+          <td class="td-num">${fmt(r.hep_c_screened)}</td><td class="td-num">${fmt(r.hep_c_positive)}</td>
+          <td style="color:var(--gray);font-size:12px">${dStr(r.report_date)}</td>
+          <td style="font-size:12px">${r.recorder_name||''}</td>
+          <td><div style="display:flex;gap:5px;justify-content:center">
+            <button class="btn btn-sky" style="padding:5px 10px;font-size:12px;border-radius:7px" onclick='editHospRecord(${JSON.stringify(r)})'>แก้ไข</button>
+            <button class="btn" style="padding:5px 10px;font-size:12px;border-radius:7px;background:linear-gradient(135deg,#b91c1c,#ef4444)" onclick='deleteHospRecord("${r.id}")'>ลบ</button>
+          </div></td>
+        </tr>`).join('')
+      : '<tr><td colspan="10" style="padding:24px;color:#7dd3fc">ยังไม่มีข้อมูล</td></tr>';
+  }
+
+  function toggleHospRecs() {
+    const s=document.getElementById('hospRecsSection'), b=document.getElementById('hospRecBtn');
+    const open=s.style.display!=='none';
+    s.style.display=open?'none':'block';
+    b.classList.toggle('open',!open);
+    b.querySelector('.rec-arrow').textContent=open?'▶':'▼';
+  }
+
+  // Hospital CRUD
+  function openHospForm() {
+    document.getElementById('hospForm').reset(); document.getElementById('hid').value='';
+    document.getElementById('h_fiscal_year').value='2569';
+    document.getElementById('h_report_date').valueAsDate=new Date();
+    document.getElementById('hospFormTitle').textContent='บันทึกข้อมูลโรงพยาบาล';
+    document.getElementById('hospModal').style.display='flex';
+  }
+  function closeHospForm() { document.getElementById('hospModal').style.display='none'; }
+
+  function onHospChange() {
+    const h=HOSPITALS.find(x=>x.name===document.getElementById('h_hospital_select').value);
+    if(h){document.getElementById('h_district').value=h.district; document.getElementById('h_service_unit_name').value=h.name;}
+  }
+
+  function editHospRecord(r) {
+    openHospForm();
+    document.getElementById('hid').value=r.id||'';
+    document.getElementById('h_fiscal_year').value=r.fiscal_year||'';
+    document.getElementById('h_hospital_select').value=r.service_unit_name||'';
+    document.getElementById('h_district').value=r.district||'';
+    document.getElementById('h_service_unit_name').value=r.service_unit_name||'';
+    document.getElementById('h_service_unit_code').value=r.service_unit_code||'';
+    document.getElementById('h_target_group').value=r.target_group||'';
+    document.getElementById('h_report_date').value=dInput(r.report_date);
+    document.getElementById('h_hep_b_screened').value=r.hep_b_screened||'';
+    document.getElementById('h_hep_b_positive').value=r.hep_b_positive||'';
+    document.getElementById('h_hep_b_negative').value=r.hep_b_negative||'';
+    document.getElementById('h_hep_c_screened').value=r.hep_c_screened||'';
+    document.getElementById('h_hep_c_positive').value=r.hep_c_positive||'';
+    document.getElementById('h_hep_c_negative').value=r.hep_c_negative||'';
+    document.getElementById('h_recorder_name').value=r.recorder_name||'';
+    document.getElementById('h_remark').value=r.remark||'';
+    document.getElementById('hospFormTitle').textContent='แก้ไขข้อมูลโรงพยาบาล';
+  }
+
+  async function saveHospRecord(e) {
+    e.preventDefault();
+    const id=document.getElementById('hid').value;
+    const data={
+      fiscal_year:document.getElementById('h_fiscal_year').value,province_code:'45',province_name:'ร้อยเอ็ด',
+      district:document.getElementById('h_district').value,service_unit_code:document.getElementById('h_service_unit_code').value,
+      service_unit_name:document.getElementById('h_service_unit_name').value||document.getElementById('h_hospital_select').value,
+      target_group:document.getElementById('h_target_group').value,report_date:document.getElementById('h_report_date').value,
+      hep_b_screened:document.getElementById('h_hep_b_screened').value,hep_b_positive:document.getElementById('h_hep_b_positive').value,
+      hep_b_negative:document.getElementById('h_hep_b_negative').value,hep_c_screened:document.getElementById('h_hep_c_screened').value,
+      hep_c_positive:document.getElementById('h_hep_c_positive').value,hep_c_negative:document.getElementById('h_hep_c_negative').value,
+      recorder_name:document.getElementById('h_recorder_name').value,remark:document.getElementById('h_remark').value,
+    };
+    const res=await api(id?'update':'create', id?{id,data}:{data});
+    toast((res.success?'✅ ':'❌ ')+(res.message||(res.success?'สำเร็จ':'ไม่สำเร็จ')));
+    if(res.success){closeHospForm(); await loadHospData();}
+  }
+
+  async function deleteHospRecord(id) {
+    if(!confirm('ยืนยันการลบ?')) return;
+    const res=await api('delete',{id});
+    toast((res.success?'✅ ':'❌ ')+(res.message||''));
+    if(res.success) loadHospData();
+  }
+
+  function autoCalcH() {
+    document.getElementById('h_hep_b_negative').value=Math.max(0,n_(document.getElementById('h_hep_b_screened').value)-n_(document.getElementById('h_hep_b_positive').value));
+    document.getElementById('h_hep_c_negative').value=Math.max(0,n_(document.getElementById('h_hep_c_screened').value)-n_(document.getElementById('h_hep_c_positive').value));
+  }
+
+  function exportHospCSV() {
+    const year=yearFilterH.value, yr=hospRecords.filter(r=>String(r.fiscal_year)===String(year));
+    const map={};
+    yr.forEach(r=>{
+      const k=(r.service_unit_name||r.district||'').trim(); if(!k) return;
+      if(!map[k])map[k]={name:k,district:r.district||'',bs:0,bp:0,bn:0,cs:0,cp:0,cn:0};
+      map[k].bs+=n_(r.hep_b_screened);map[k].bp+=n_(r.hep_b_positive);map[k].bn+=n_(r.hep_b_negative);
+      map[k].cs+=n_(r.hep_c_screened);map[k].cp+=n_(r.hep_c_positive);map[k].cn+=n_(r.hep_c_negative);
+    });
+    const rows=HOSPITALS.map(h=>map[h.name]||{name:h.name,district:h.district,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
+    const hdrs=['โรงพยาบาล','อำเภอ','HepB ตรวจ','HepB บวก','HepB ลบ','%HepB บวก','HepC ตรวจ','HepC บวก','HepC ลบ','%HepC บวก'];
+    dlCSV(hdrs, rows.map(r=>[r.name,r.district,r.bs,r.bp,r.bn,pct(r.bp,r.bs).toFixed(2),r.cs,r.cp,r.cn,pct(r.cp,r.cs).toFixed(2)]), `hosp_${year}`);
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // TAB 2: รพ.สต.
+  // ══════════════════════════════════════════════════════════════════
+
+  async function loadHphtData() {
+    toast('⏳ กำลังดึงข้อมูล รพ.สต....');
+    try {
+      const res = await api('list_hpht');
+      if (!res.success) { toast('❌ ' + (res.message||'โหลดไม่สำเร็จ')); return; }
+      hphtRecords = res.data || [];
+      renderHphtTable(); updateHphtStats();
+      toast('✅ โหลด รพ.สต. สำเร็จ — ' + hphtRecords.length + ' รายการ');
+    } catch { toast('❌ ไม่สามารถเชื่อมต่อ Google Sheets'); }
+  }
+
+  function updateHphtStats() {
+    const f=filteredHpht();
+    const dists=new Set(f.map(r=>r.district).filter(Boolean));
+    document.getElementById('stHTRec').textContent=hphtRecords.length;
+    document.getElementById('stHTBs').textContent=fmt(f.reduce((s,r)=>s+n_(r.hep_b_screened),0));
+    document.getElementById('stHTCs').textContent=fmt(f.reduce((s,r)=>s+n_(r.hep_c_screened),0));
+    document.getElementById('stHTDist').textContent=dists.size||'—';
+  }
+
+  function filteredHpht() {
+    const yr=document.getElementById('yearFilterHT').value;
+    const dt=document.getElementById('distFilterHT').value;
+    return hphtRecords.filter(r=>
+      (!yr || String(r.fiscal_year)===String(yr)) &&
+      (!dt || r.district===dt)
+    );
+  }
+
+  function renderHphtTable() {
+    const rows=filteredHpht();
+    const yr=document.getElementById('yearFilterHT').value||'ทุกปี';
+    const dt=document.getElementById('distFilterHT').value||'ทุกอำเภอ';
+    document.getElementById('hphtFilterLabel').textContent=yr+' · '+dt;
+    document.getElementById('hphtRecCount').textContent=rows.length;
+    updateHphtStats();
+    document.getElementById('hphtTbody').innerHTML=rows.length
+      ?rows.map((r,i)=>`<tr>
+          <td style="color:var(--gray);font-size:12px">${i+1}</td>
+          <td style="font-weight:700;color:var(--t2)">${r.fiscal_year||''}</td>
+          <td class="td-dist">${r.district||''}</td>
+          <td class="td-hpht">${r.hpht_name||''}</td>
+          <td style="font-size:12px;color:var(--gray)">${r.hpht_code||'—'}</td>
+          <td class="td-num">${n_(r.target_group)?fmt(r.target_group):'—'}</td>
+          <td class="td-num">${fmt(r.hep_b_screened)}</td><td class="td-num">${fmt(r.hep_b_positive)}</td><td class="td-num">${fmt(r.hep_b_negative)}</td>
+          <td class="td-num sep-l">${fmt(r.hep_c_screened)}</td><td class="td-num">${fmt(r.hep_c_positive)}</td><td class="td-num">${fmt(r.hep_c_negative)}</td>
+          <td>${n_(r.hep_b_screened)?`<span class="rpill ${posC(pct(n_(r.hep_b_positive),n_(r.hep_b_screened)))}">${pct(n_(r.hep_b_positive),n_(r.hep_b_screened)).toFixed(2)}%</span>`:'<span class="nd">—</span>'}</td>
+          <td class="sep-l">${n_(r.hep_c_screened)?`<span class="rpill ${posC(pct(n_(r.hep_c_positive),n_(r.hep_c_screened)))}">${pct(n_(r.hep_c_positive),n_(r.hep_c_screened)).toFixed(2)}%</span>`:'<span class="nd">—</span>'}</td>
+          <td style="color:var(--gray);font-size:12px">${dStr(r.report_date)}</td>
+          <td style="font-size:12px">${r.recorder_name||''}</td>
+          <td><div style="display:flex;gap:5px;justify-content:center">
+            <button class="btn btn-teal" style="padding:5px 10px;font-size:12px;border-radius:7px" onclick='editHphtRecord(${JSON.stringify(r)})'>แก้ไข</button>
+            <button class="btn" style="padding:5px 10px;font-size:12px;border-radius:7px;background:linear-gradient(135deg,#b91c1c,#ef4444)" onclick='deleteHphtRecord("${r.id}")'>ลบ</button>
+          </div></td>
+        </tr>`).join('')
+      :'<tr><td colspan="17" style="padding:32px;color:#5eead4;text-align:center">ยังไม่มีข้อมูล รพ.สต. — กดปุ่ม <strong>บันทึกข้อมูล รพ.สต.</strong> เพื่อเพิ่มรายการ</td></tr>';
+  }
+
+  // รพ.สต. CRUD
+  function openHphtForm() {
+    document.getElementById('hphtForm').reset(); document.getElementById('htid').value='';
+    document.getElementById('ht_fiscal_year').value='2569';
+    document.getElementById('ht_report_date').valueAsDate=new Date();
+    document.getElementById('hphtFormTitle').textContent='บันทึกข้อมูล รพ.สต.';
+    document.getElementById('hphtModal').style.display='flex';
+  }
+  function closeHphtForm() { document.getElementById('hphtModal').style.display='none'; }
+
+  function editHphtRecord(r) {
+    openHphtForm();
+    document.getElementById('htid').value=r.id||'';
+    document.getElementById('ht_fiscal_year').value=r.fiscal_year||'';
+    document.getElementById('ht_district').value=r.district||'';
+    document.getElementById('ht_hpht_code').value=r.hpht_code||'';
+    document.getElementById('ht_hpht_name').value=r.hpht_name||'';
+    document.getElementById('ht_target_group').value=r.target_group||'';
+    document.getElementById('ht_report_date').value=dInput(r.report_date);
+    document.getElementById('ht_hep_b_screened').value=r.hep_b_screened||'';
+    document.getElementById('ht_hep_b_positive').value=r.hep_b_positive||'';
+    document.getElementById('ht_hep_b_negative').value=r.hep_b_negative||'';
+    document.getElementById('ht_hep_c_screened').value=r.hep_c_screened||'';
+    document.getElementById('ht_hep_c_positive').value=r.hep_c_positive||'';
+    document.getElementById('ht_hep_c_negative').value=r.hep_c_negative||'';
+    document.getElementById('ht_recorder_name').value=r.recorder_name||'';
+    document.getElementById('ht_remark').value=r.remark||'';
+    document.getElementById('hphtFormTitle').textContent='แก้ไขข้อมูล รพ.สต.';
+  }
+
+  async function saveHphtRecord(e) {
+    e.preventDefault();
+    const id=document.getElementById('htid').value;
+    const data={
+      fiscal_year:document.getElementById('ht_fiscal_year').value,
+      district:document.getElementById('ht_district').value,
+      hpht_code:document.getElementById('ht_hpht_code').value,
+      hpht_name:document.getElementById('ht_hpht_name').value,
+      target_group:document.getElementById('ht_target_group').value,
+      report_date:document.getElementById('ht_report_date').value,
+      hep_b_screened:document.getElementById('ht_hep_b_screened').value,
+      hep_b_positive:document.getElementById('ht_hep_b_positive').value,
+      hep_b_negative:document.getElementById('ht_hep_b_negative').value,
+      hep_c_screened:document.getElementById('ht_hep_c_screened').value,
+      hep_c_positive:document.getElementById('ht_hep_c_positive').value,
+      hep_c_negative:document.getElementById('ht_hep_c_negative').value,
+      recorder_name:document.getElementById('ht_recorder_name').value,
+      remark:document.getElementById('ht_remark').value,
+    };
+    const res=await api(id?'update_hpht':'create_hpht', id?{id,data}:{data});
+    toast((res.success?'✅ ':'❌ ')+(res.message||(res.success?'สำเร็จ':'ไม่สำเร็จ')));
+    if(res.success){closeHphtForm(); await loadHphtData();}
+  }
+
+  async function deleteHphtRecord(id) {
+    if(!confirm('ยืนยันการลบ?')) return;
+    const res=await api('delete_hpht',{id});
+    toast((res.success?'✅ ':'❌ ')+(res.message||''));
+    if(res.success) loadHphtData();
+  }
+
+  function autoCalcHT() {
+    document.getElementById('ht_hep_b_negative').value=Math.max(0,n_(document.getElementById('ht_hep_b_screened').value)-n_(document.getElementById('ht_hep_b_positive').value));
+    document.getElementById('ht_hep_c_negative').value=Math.max(0,n_(document.getElementById('ht_hep_c_screened').value)-n_(document.getElementById('ht_hep_c_positive').value));
+  }
+
+  function exportHphtCSV() {
+    const rows=filteredHpht();
+    const hdrs=['ปี','อำเภอ','รหัส รพ.สต.','ชื่อ รพ.สต.','เป้าหมาย','HepB ตรวจ','HepB บวก','HepB ลบ','%HepB บวก','HepC ตรวจ','HepC บวก','HepC ลบ','%HepC บวก','วันที่','ผู้บันทึก'];
+    dlCSV(hdrs, rows.map(r=>[r.fiscal_year,r.district,r.hpht_code,r.hpht_name,r.target_group,
+      r.hep_b_screened,r.hep_b_positive,r.hep_b_negative,pct(n_(r.hep_b_positive),n_(r.hep_b_screened)).toFixed(2),
+      r.hep_c_screened,r.hep_c_positive,r.hep_c_negative,pct(n_(r.hep_c_positive),n_(r.hep_c_screened)).toFixed(2),
+      r.report_date,r.recorder_name]), 'hpht');
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // 43 แฟ้ม IMPORT
+  // ══════════════════════════════════════════════════════════════════
+
+  let import43Mode = 'hosp';
+  let import43Data = null;
+  let _personData  = null;
+  let _diagData    = null;
+
+  function openImport43(mode) {
+    import43Mode = mode;
+    import43Data = _personData = _diagData = null;
+    document.getElementById('personLabel').textContent = 'คลิกเพื่อเลือก PERSON.txt';
+    document.getElementById('diagLabel').textContent   = 'คลิกเพื่อเลือก DIAG.txt';
+    document.getElementById('personDrop').classList.remove('loaded');
+    document.getElementById('diagDrop').classList.remove('loaded');
+    document.getElementById('personFile').value = '';
+    document.getElementById('diagFile').value   = '';
+    document.getElementById('import43Result').style.display = 'none';
+    document.getElementById('import43Modal').style.display  = 'flex';
+  }
+  function closeImport43() { document.getElementById('import43Modal').style.display = 'none'; }
+
+  function readTxt43(file, enc, callback) {
+    const fr = new FileReader();
+    fr.onload = ev => callback(ev.target.result);
+    fr.readAsText(file, enc || 'utf-8');
+  }
+
+  function parseTxt43(text) {
+    const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) return [];
+    const delim = lines[0].includes('|') ? '|' : lines[0].includes('\t') ? '\t' : ',';
+    const hdrs  = lines[0].split(delim).map(h => h.trim().replace(/^"|"$/g,'').toUpperCase());
+    return lines.slice(1).map(line => {
+      const vals = line.split(delim).map(v => v.trim().replace(/^"|"$/g,''));
+      const obj  = {};
+      hdrs.forEach((h, i) => { obj[h] = vals[i] !== undefined ? vals[i] : ''; });
+      return obj;
+    });
+  }
+
+  function onPersonFile(e) {
+    const f = e.target.files[0]; if (!f) return;
+    const enc = document.getElementById('import43Enc').value;
+    readTxt43(f, enc, txt => {
+      _personData = parseTxt43(txt);
+      document.getElementById('personLabel').textContent = '✅ ' + f.name + ' (' + _personData.length.toLocaleString() + ' แถว)';
+      document.getElementById('personDrop').classList.add('loaded');
+    });
+  }
+
+  function onDiagFile(e) {
+    const f = e.target.files[0]; if (!f) return;
+    const enc = document.getElementById('import43Enc').value;
+    readTxt43(f, enc, txt => {
+      _diagData = parseTxt43(txt);
+      document.getElementById('diagLabel').textContent = '✅ ' + f.name + ' (' + _diagData.length.toLocaleString() + ' แถว)';
+      document.getElementById('diagDrop').classList.add('loaded');
+    });
+  }
+
+  function parseIcdList43(id) {
+    return document.getElementById(id).value
+      .split(',').map(c => c.trim().toUpperCase().replace(/\./g,'')).filter(Boolean);
+  }
+
+  function matchIcd43(code, list) {
+    const c = String(code||'').trim().toUpperCase().replace(/\./g,'');
+    if (!c) return false;
+    return list.some(l => c === l || c.startsWith(l));
+  }
+
+  function parseImport43() {
+    if (!_personData && !_diagData) { toast('⚠️ กรุณาอัปโหลดไฟล์ก่อน'); return; }
+    const refYear   = parseInt(document.getElementById('import43Year').value) || 2026;
+    const bScrList  = parseIcdList43('icdBScr');
+    const bPosList  = parseIcdList43('icdBPos');
+    const cScrList  = parseIcdList43('icdCScr');
+    const cPosList  = parseIcdList43('icdCPos');
+    const info      = [];
+
+    let target = 0;
+    if (_personData && _personData.length > 0) {
+      const sample   = _personData[0];
+      const birthCol = ['BIRTH','BIRTHDATE','DOB','DATEOFBIRTH','BDATE','BIRTHD','DATE_BIRTH']
+        .find(k => k in sample);
+      if (!birthCol) {
+        info.push('⚠️ ไม่พบคอลัมน์วันเกิดใน PERSON — ต้องการ BIRTH, DOB, BIRTHDATE');
+      } else {
+        _personData.forEach(r => {
+          const bStr = String(r[birthCol]||'').replace(/-/g,'');
+          if (bStr.length < 4) return;
+          let bYear = parseInt(bStr.slice(0,4));
+          if (isNaN(bYear)) return;
+          if (bYear > 2400) bYear -= 543;  // พ.ศ. → ค.ศ.
+          if (refYear - bYear >= 33) target++;
+        });
+        info.push('✅ PERSON: ' + _personData.length.toLocaleString() + ' ระเบียน | กลุ่มเป้าหมาย (อายุ ≥33 ปี): ' + target.toLocaleString() + ' คน');
+      }
+    } else {
+      info.push('ℹ️ ไม่ได้อัปโหลดไฟล์ PERSON — ไม่นับกลุ่มเป้าหมาย');
+    }
+
+    let bScr = 0, bPos = 0, cScr = 0, cPos = 0;
+    if (_diagData && _diagData.length > 0) {
+      const sample = _diagData[0];
+      const icdCol = ['DIAGCODE','ICD10','ICD_CODE','DIAG','DIAGNOSIS','ICD10ID','DXCODE','DX']
+        .find(k => k in sample);
+      const hnCol  = ['HN','PATIENT_HN','PID','HN_TOKEN','CID'].find(k => k in sample);
+      if (!icdCol) {
+        info.push('⚠️ ไม่พบคอลัมน์รหัสวินิจฉัยใน DIAG — ต้องการ DIAGCODE, ICD10, DIAG');
+      } else {
+        const bScrSet = new Set(), bPosSet = new Set();
+        const cScrSet = new Set(), cPosSet = new Set();
+        _diagData.forEach((r, i) => {
+          const code = String(r[icdCol]||'').trim();
+          const key  = hnCol ? String(r[hnCol]||i) : String(i);
+          if (matchIcd43(code, bScrList)) bScrSet.add(key);
+          if (matchIcd43(code, bPosList)) bPosSet.add(key);
+          if (matchIcd43(code, cScrList)) cScrSet.add(key);
+          if (matchIcd43(code, cPosList)) cPosSet.add(key);
+        });
+        bScr = bScrSet.size; bPos = bPosSet.size;
+        cScr = cScrSet.size; cPos = cPosSet.size;
+        info.push('✅ DIAG: ' + _diagData.length.toLocaleString() + ' ระเบียน | นับ unique HN ต่อกลุ่มรหัส | คอลัมน์รหัส: ' + icdCol + (hnCol ? ' | HN: '+hnCol : ' | (ไม่พบ HN → นับแถว)'));
+      }
+    } else {
+      info.push('ℹ️ ไม่ได้อัปโหลดไฟล์ DIAG — ไม่นับการคัดกรอง');
+    }
+
+    import43Data = {
+      target, bScr, bPos, bNeg: Math.max(0, bScr-bPos),
+      cScr,  cPos, cNeg: Math.max(0, cScr-cPos),
+    };
+
+    document.getElementById('r43Target').textContent = target.toLocaleString('th-TH');
+    document.getElementById('r43BScr').textContent   = bScr.toLocaleString('th-TH');
+    document.getElementById('r43BPos').textContent   = bPos.toLocaleString('th-TH');
+    document.getElementById('r43CScr').textContent   = cScr.toLocaleString('th-TH');
+    document.getElementById('r43CPos').textContent   = cPos.toLocaleString('th-TH');
+    document.getElementById('import43Info').innerHTML = info.map(l=>`<div>${l}</div>`).join('');
+    document.getElementById('import43Result').style.display = '';
+  }
+
+  function resetImport43() {
+    _personData = _diagData = import43Data = null;
+    document.getElementById('personLabel').textContent = 'คลิกเพื่อเลือก PERSON.txt';
+    document.getElementById('diagLabel').textContent   = 'คลิกเพื่อเลือก DIAG.txt';
+    document.getElementById('personDrop').classList.remove('loaded');
+    document.getElementById('diagDrop').classList.remove('loaded');
+    document.getElementById('personFile').value = '';
+    document.getElementById('diagFile').value   = '';
+    document.getElementById('import43Result').style.display = 'none';
+  }
+
+  function applyImport43() {
+    if (!import43Data) { toast('⚠️ วิเคราะห์ไฟล์ก่อน'); return; }
+    closeImport43();
+    if (import43Mode === 'hosp') {
+      openHospForm();
+      if (import43Data.target) document.getElementById('h_target_group').value = import43Data.target;
+      document.getElementById('h_hep_b_screened').value = import43Data.bScr;
+      document.getElementById('h_hep_b_positive').value = import43Data.bPos;
+      document.getElementById('h_hep_b_negative').value = import43Data.bNeg;
+      document.getElementById('h_hep_c_screened').value = import43Data.cScr;
+      document.getElementById('h_hep_c_positive').value = import43Data.cPos;
+      document.getElementById('h_hep_c_negative').value = import43Data.cNeg;
+    } else {
+      openHphtForm();
+      if (import43Data.target) document.getElementById('ht_target_group').value = import43Data.target;
+      document.getElementById('ht_hep_b_screened').value = import43Data.bScr;
+      document.getElementById('ht_hep_b_positive').value = import43Data.bPos;
+      document.getElementById('ht_hep_b_negative').value = import43Data.bNeg;
+      document.getElementById('ht_hep_c_screened').value = import43Data.cScr;
+      document.getElementById('ht_hep_c_positive').value = import43Data.cPos;
+      document.getElementById('ht_hep_c_negative').value = import43Data.cNeg;
+    }
+    toast('📋 นำข้อมูลจาก 43 แฟ้มสำเร็จ — กรุณาตรวจสอบและกรอกข้อมูลที่เหลือก่อนบันทึก');
+  }
+
+  // ── UTILS ─────────────────────────────────────────────────────────
+  function scrC(p){if(p>=80)return'cg';if(p>=60)return'cy';if(p>=40)return'co';return'cr';}
+  function posC(p){if(p<1)return'rg';if(p<2)return'ry';if(p<4)return'ro';return'rr';}
+  function pct(a,b){b=n_(b);return b?n_(a)*100/b:0;}
+  function n_(v){const x=Number(v);return isNaN(x)?0:x;}
+  function fmt(v){return n_(v).toLocaleString('th-TH');}
+  function dStr(v){if(!v)return'';const d=new Date(v);return isNaN(d)?String(v).slice(0,10):d.toLocaleDateString('th-TH');}
+  function dInput(v){if(!v)return'';const d=new Date(v);return isNaN(d)?String(v).slice(0,10):d.toISOString().slice(0,10);}
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2800);}
+  function dlCSV(hdrs,rows,name){
+    const csv=[hdrs,...rows].map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));
+    a.download=`hepatitis_roiet_${name}.csv`;a.click();
+  }
+</script>
+</body>
+</html>
