@@ -128,6 +128,13 @@
     .rpt-sub{color:rgba(186,230,253,.7);font-size:12px;margin-top:2px}
     .rpt-year{background:rgba(255,255,255,.18);border:1.5px solid rgba(125,211,252,.4);
       color:#e0f2fe;padding:6px 20px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap}
+    .yr-tabs{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+    .yr-tab{border:none;cursor:pointer;font-weight:800;font-size:13px;padding:6px 14px;border-radius:999px;
+      background:rgba(255,255,255,.14);color:rgba(224,242,254,.75);transition:all .18s;white-space:nowrap}
+    .yr-tab:hover{background:rgba(255,255,255,.26);color:#fff}
+    .yr-tab.yr-tab-act{background:#fff;color:var(--s1);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+    .yr-tab-sum{border:1.5px solid rgba(255,255,255,.35);letter-spacing:-.2px}
+    .yr-tab-sum.yr-tab-act{background:linear-gradient(135deg,#f0fdf4,#d1fae5);color:var(--t1)}
 
     /* ── TABLE ── */
     .tscroll{overflow-x:auto}
@@ -176,6 +183,10 @@
     .co{background:var(--ro-bg);color:var(--ro-tx)}
     .cr{background:var(--rr-bg);color:var(--rr-tx)}
     .nd{color:#93c5fd}
+    .stat-cum{font-size:11px;color:var(--t2);font-weight:700;margin-top:3px;white-space:nowrap}
+    .stat-yr{font-size:10.5px;color:var(--s3);font-weight:600;margin-top:2px;white-space:nowrap}
+    tr.tot-cum td{background:linear-gradient(90deg,var(--t8),#e8f9f5)!important;
+      font-weight:800;border-top:2px solid var(--t5);color:var(--t1)}
 
     /* ── LOCKED SCREEN ── */
     .locked-box{text-align:center;padding:64px 24px;background:var(--card);
@@ -336,6 +347,8 @@
       .rpt-title{font-size:13px}
       .rpt-sub{font-size:11px}
       .rpt-year{font-size:12px;padding:5px 13px}
+      .yr-tab{font-size:11.5px;padding:5px 11px}
+      .yr-tabs{gap:4px}
       .legend{padding:8px 14px;gap:6px;font-size:11px}
       /* Table */
       .tscroll{-webkit-overflow-scrolling:touch}
@@ -438,14 +451,6 @@
         โหลดข้อมูล
       </button>
       <div class="sep"></div>
-      <div class="year-pill">
-        <label>📅 ปีงบประมาณ</label>
-        <select id="yearFilterH" onchange="renderHospReport()">
-          <option value="2569">2569</option><option value="2568">2568</option>
-          <option value="2567">2567</option><option value="2566">2566</option>
-        </select>
-      </div>
-      <div class="sep"></div>
       <button class="btn btn-gray" onclick="exportHospCSV()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Export CSV
@@ -457,10 +462,26 @@
     </div>
 
     <div class="stats-bar">
-      <div class="stat-card"><div class="stat-icon si-a">🏥</div><div><div class="stat-val">20</div><div class="stat-lbl">โรงพยาบาลทั้งหมด</div></div></div>
-      <div class="stat-card"><div class="stat-icon si-b">🔵</div><div><div class="stat-val" id="stHBs">—</div><div class="stat-lbl">Hep B ตรวจรวม</div></div></div>
-      <div class="stat-card"><div class="stat-icon si-c">🟢</div><div><div class="stat-val" id="stHCs">—</div><div class="stat-lbl">Hep C ตรวจรวม</div></div></div>
-      <div class="stat-card"><div class="stat-icon si-d">📋</div><div><div class="stat-val" id="stHRec">0</div><div class="stat-lbl">รายการทั้งหมด</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-a">🎯</div><div>
+        <div class="stat-val" id="stHTgt">—</div>
+        <div class="stat-lbl">เป้าหมายปีที่เลือก</div>
+        <div class="stat-cum" id="stHTgtCum">สะสม 2568+: —</div>
+      </div></div>
+      <div class="stat-card"><div class="stat-icon si-b">🔵</div><div>
+        <div class="stat-val" id="stHBs">—</div>
+        <div class="stat-lbl">HepB ตรวจ (ปีนี้)</div>
+        <div class="stat-cum" id="stHBsCum">สะสม 2568+: —</div>
+      </div></div>
+      <div class="stat-card"><div class="stat-icon si-c">🟢</div><div>
+        <div class="stat-val" id="stHCs">—</div>
+        <div class="stat-lbl">HepC ตรวจ (ปีนี้)</div>
+        <div class="stat-cum" id="stHCsCum">สะสม 2568+: —</div>
+      </div></div>
+      <div class="stat-card"><div class="stat-icon si-d">📋</div><div>
+        <div class="stat-val" id="stHRec">0</div>
+        <div class="stat-lbl">รายการทั้งหมด</div>
+        <div class="stat-yr" id="stHRecYr">ปีนี้: — รายการ</div>
+      </div></div>
     </div>
 
     <div class="report-card">
@@ -471,7 +492,14 @@
             <div class="rpt-sub">ดึงข้อมูลจาก Google Sheets</div>
           </div>
         </div>
-        <div class="rpt-year">ปี <span id="reportYearH">2569</span></div>
+        <div class="yr-tabs" id="yrTabsH">
+          <button class="yr-tab yr-tab-sum yr-tab-act" data-yr="all"   onclick="setYearH('all')">📊 สรุปรวม</button>
+          <button class="yr-tab" data-yr="2568" onclick="setYearH('2568')">2568</button>
+          <button class="yr-tab" data-yr="2569" onclick="setYearH('2569')">2569</button>
+          <button class="yr-tab" data-yr="2570" onclick="setYearH('2570')">2570</button>
+          <button class="yr-tab" data-yr="2571" onclick="setYearH('2571')">2571</button>
+          <button class="yr-tab" data-yr="2572" onclick="setYearH('2572')">2572</button>
+        </div>
       </div>
       <div class="tscroll">
         <table class="t-hosp">
@@ -592,10 +620,26 @@
 
       <!-- stats -->
       <div class="stats-bar">
-        <div class="stat-card"><div class="stat-icon si-c">🏡</div><div><div class="stat-val" id="stHTRec">0</div><div class="stat-lbl">รายการ รพ.สต. ทั้งหมด</div></div></div>
-        <div class="stat-card"><div class="stat-icon si-b">🔵</div><div><div class="stat-val" id="stHTBs">—</div><div class="stat-lbl">Hep B ตรวจรวม</div></div></div>
-        <div class="stat-card"><div class="stat-icon si-c">🟢</div><div><div class="stat-val" id="stHTCs">—</div><div class="stat-lbl">Hep C ตรวจรวม</div></div></div>
-        <div class="stat-card"><div class="stat-icon si-d">🗺</div><div><div class="stat-val" id="stHTDist">—</div><div class="stat-lbl">อำเภอที่รายงาน</div></div></div>
+        <div class="stat-card"><div class="stat-icon si-c">🏡</div><div>
+          <div class="stat-val" id="stHTRec">0</div>
+          <div class="stat-lbl">รายการ รพ.สต. ทั้งหมด</div>
+          <div class="stat-yr" id="stHTRecYr">ปีนี้: — รายการ</div>
+        </div></div>
+        <div class="stat-card"><div class="stat-icon si-b">🔵</div><div>
+          <div class="stat-val" id="stHTBs">—</div>
+          <div class="stat-lbl">HepB ตรวจ (ปีนี้)</div>
+          <div class="stat-cum" id="stHTBsCum">สะสม 2568+: —</div>
+        </div></div>
+        <div class="stat-card"><div class="stat-icon si-c">🟢</div><div>
+          <div class="stat-val" id="stHTCs">—</div>
+          <div class="stat-lbl">HepC ตรวจ (ปีนี้)</div>
+          <div class="stat-cum" id="stHTCsCum">สะสม 2568+: —</div>
+        </div></div>
+        <div class="stat-card"><div class="stat-icon si-d">🗺</div><div>
+          <div class="stat-val" id="stHTDist">—</div>
+          <div class="stat-lbl">อำเภอที่รายงาน</div>
+          <div class="stat-yr" id="stHTDistCum">สะสม 2568+: — อำเภอ</div>
+        </div></div>
       </div>
 
       <!-- records table -->
@@ -885,6 +929,7 @@
   let hospRecords = [];
   let hphtRecords = [];
   let loggedIn    = false;
+  let activeYearH = 'all';
 
   const DISTRICTS = [
     'เมืองร้อยเอ็ด','เกษตรวิสัย','ปทุมรัตต์','จตุรพักตรพิมาน','ธวัชบุรี',
@@ -1042,20 +1087,35 @@
     } catch { toast('❌ ไม่สามารถเชื่อมต่อ Google Sheets'); }
   }
 
+  function setYearH(y) {
+    activeYearH = y;
+    document.querySelectorAll('#yrTabsH .yr-tab').forEach(b => {
+      b.classList.toggle('yr-tab-act', b.dataset.yr === String(y));
+    });
+    renderHospReport();
+  }
+
   function updateHospStats() {
-    const yr = hospRecords.filter(r => String(r.fiscal_year) === String(yearFilterH.value));
-    document.getElementById('stHBs').textContent  = fmt(yr.reduce((s,r) => s+n_(r.hep_b_screened),0));
-    document.getElementById('stHCs').textContent  = fmt(yr.reduce((s,r) => s+n_(r.hep_c_screened),0));
-    document.getElementById('stHRec').textContent = hospRecords.length;
+    const isAll = activeYearH === 'all';
+    const yr  = isAll ? hospRecords.filter(r => Number(r.fiscal_year) >= 2568)
+                      : hospRecords.filter(r => String(r.fiscal_year) === String(activeYearH));
+    const cum = hospRecords.filter(r => Number(r.fiscal_year) >= 2568);
+    document.getElementById('stHTgt').textContent    = fmt(yr.reduce((s,r)=>s+n_(r.target_group),0));
+    document.getElementById('stHTgtCum').textContent = isAll ? 'ทุกปี 2568+' : 'สะสม 2568+: '+fmt(cum.reduce((s,r)=>s+n_(r.target_group),0));
+    document.getElementById('stHBs').textContent     = fmt(yr.reduce((s,r)=>s+n_(r.hep_b_screened),0));
+    document.getElementById('stHBsCum').textContent  = isAll ? 'ทุกปีรวมกัน' : 'สะสม 2568+: '+fmt(cum.reduce((s,r)=>s+n_(r.hep_b_screened),0));
+    document.getElementById('stHCs').textContent     = fmt(yr.reduce((s,r)=>s+n_(r.hep_c_screened),0));
+    document.getElementById('stHCsCum').textContent  = isAll ? 'ทุกปีรวมกัน' : 'สะสม 2568+: '+fmt(cum.reduce((s,r)=>s+n_(r.hep_c_screened),0));
+    document.getElementById('stHRec').textContent    = hospRecords.length;
+    document.getElementById('stHRecYr').textContent  = isAll ? 'สะสม 2568+: '+yr.length+' รายการ' : 'ปีที่เลือก: '+yr.length+' รายการ';
   }
 
   function renderHospReport() {
-    const year = yearFilterH.value;
-    document.getElementById('reportYearH').textContent = year;
+    const isAll = activeYearH === 'all';
     updateHospStats();
-    const yr  = hospRecords.filter(r => String(r.fiscal_year) === String(year));
+    const src = isAll ? hospRecords.filter(r => Number(r.fiscal_year) >= 2568) : hospRecords.filter(r => String(r.fiscal_year) === String(activeYearH));
     const map = {};
-    yr.forEach(r => {
+    src.forEach(r => {
       const k = (r.service_unit_name || r.district || '').trim(); if (!k) return;
       if (!map[k]) map[k] = {name:k,district:r.district||'',tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0};
       map[k].tgt+=n_(r.target_group); map[k].bs+=n_(r.hep_b_screened); map[k].bp+=n_(r.hep_b_positive); map[k].bn+=n_(r.hep_b_negative);
@@ -1063,8 +1123,9 @@
     });
     const rows = HOSPITALS.map(h => map[h.name]||{name:h.name,district:h.district,tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
     Object.keys(map).forEach(k => { if(!HOSPITALS.find(h=>h.name===k)) rows.push(map[k]); });
-    const tot = rows.reduce((t,r)=>({bs:t.bs+r.bs,bp:t.bp+r.bp,bn:t.bn+r.bn,cs:t.cs+r.cs,cp:t.cp+r.cp,cn:t.cn+r.cn}),{bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
-    document.getElementById('hospReportBody').innerHTML = rows.map((r,i)=>hospRowHtml(r,i)).join('') + hospTotHtml(tot);
+    const tot = rows.reduce((t,r)=>({tgt:t.tgt+r.tgt,bs:t.bs+r.bs,bp:t.bp+r.bp,bn:t.bn+r.bn,cs:t.cs+r.cs,cp:t.cp+r.cp,cn:t.cn+r.cn}),{tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
+    const totLabel = isAll ? '📊 สะสมรวม 2568+' : '🏥 รวมปี '+activeYearH;
+    document.getElementById('hospReportBody').innerHTML = rows.map((r,i)=>hospRowHtml(r,i)).join('') + hospTotHtml(tot, totLabel, isAll);
   }
 
   function hospRowHtml(r,i) {
@@ -1088,13 +1149,17 @@
     </tr>`;
   }
 
-  function hospTotHtml(t) {
+  function hospTotHtml(t, label, isSumAll) {
     const bP=pct(t.bp,t.bs),cP=pct(t.cp,t.cs);
-    return `<tr class="tot">
-      <td class="td-name" colspan="2">🏥 รวมจังหวัดร้อยเอ็ด</td>
-      <td>—</td><td class="td-num">${fmt(t.bs)}</td><td class="td-num">${fmt(t.bp)}</td><td class="td-num">${fmt(t.bn)}</td><td>—</td>
+    const bSc=pct(t.bs,t.tgt),cSc=pct(t.cs,t.tgt);
+    const cls = isSumAll ? 'tot-cum' : 'tot';
+    return `<tr class="${cls}">
+      <td class="td-name" colspan="2">${label}</td>
+      <td class="td-num">${fmt(t.tgt)}</td><td class="td-num">${fmt(t.bs)}</td><td class="td-num">${fmt(t.bp)}</td><td class="td-num">${fmt(t.bn)}</td>
+      <td>${t.tgt?`<span class="rpill ${scrC(bSc)}">${bSc.toFixed(1)}%</span>`:'—'}</td>
       <td><span class="rpill ${posC(bP)}">${bP.toFixed(2)}%</span></td>
-      <td class="sep-l">—</td><td class="td-num">${fmt(t.cs)}</td><td class="td-num">${fmt(t.cp)}</td><td class="td-num">${fmt(t.cn)}</td><td>—</td>
+      <td class="sep-l td-num">${fmt(t.tgt)}</td><td class="td-num">${fmt(t.cs)}</td><td class="td-num">${fmt(t.cp)}</td><td class="td-num">${fmt(t.cn)}</td>
+      <td>${t.tgt?`<span class="rpill ${scrC(cSc)}">${cSc.toFixed(1)}%</span>`:'—'}</td>
       <td><span class="rpill ${posC(cP)}">${cP.toFixed(2)}%</span></td>
     </tr>`;
   }
@@ -1129,7 +1194,7 @@
   // Hospital CRUD
   function openHospForm() {
     document.getElementById('hospForm').reset(); document.getElementById('hid').value='';
-    document.getElementById('h_fiscal_year').value='2569';
+    document.getElementById('h_fiscal_year').value = (activeYearH === 'all') ? '2569' : activeYearH;
     document.getElementById('h_report_date').valueAsDate=new Date();
     document.getElementById('hospFormTitle').textContent='บันทึกข้อมูลโรงพยาบาล';
     document.getElementById('hospModal').style.display='flex';
@@ -1193,7 +1258,7 @@
   }
 
   function exportHospCSV() {
-    const year=yearFilterH.value, yr=hospRecords.filter(r=>String(r.fiscal_year)===String(year));
+    const year=activeYearH, yr=hospRecords.filter(r=>String(r.fiscal_year)===String(year));
     const map={};
     yr.forEach(r=>{
       const k=(r.service_unit_name||r.district||'').trim(); if(!k) return;
@@ -1222,12 +1287,19 @@
   }
 
   function updateHphtStats() {
-    const f=filteredHpht();
-    const dists=new Set(f.map(r=>r.district).filter(Boolean));
-    document.getElementById('stHTRec').textContent=hphtRecords.length;
-    document.getElementById('stHTBs').textContent=fmt(f.reduce((s,r)=>s+n_(r.hep_b_screened),0));
-    document.getElementById('stHTCs').textContent=fmt(f.reduce((s,r)=>s+n_(r.hep_c_screened),0));
-    document.getElementById('stHTDist').textContent=dists.size||'—';
+    const f   = filteredHpht();
+    const cum = hphtRecords.filter(r => Number(r.fiscal_year) >= 2568);
+    const yr  = document.getElementById('yearFilterHT').value;
+    const dists    = new Set(f.map(r=>r.district).filter(Boolean));
+    const cumDists = new Set(cum.map(r=>r.district).filter(Boolean));
+    document.getElementById('stHTRec').textContent     = hphtRecords.length;
+    document.getElementById('stHTRecYr').textContent   = 'ปีนี้: '+f.length+' รายการ';
+    document.getElementById('stHTBs').textContent      = fmt(f.reduce((s,r)=>s+n_(r.hep_b_screened),0));
+    document.getElementById('stHTBsCum').textContent   = 'สะสม 2568+: '+fmt(cum.reduce((s,r)=>s+n_(r.hep_b_screened),0));
+    document.getElementById('stHTCs').textContent      = fmt(f.reduce((s,r)=>s+n_(r.hep_c_screened),0));
+    document.getElementById('stHTCsCum').textContent   = 'สะสม 2568+: '+fmt(cum.reduce((s,r)=>s+n_(r.hep_c_screened),0));
+    document.getElementById('stHTDist').textContent    = dists.size||'—';
+    document.getElementById('stHTDistCum').textContent = 'สะสม 2568+: '+cumDists.size+' อำเภอ';
   }
 
   function filteredHpht() {
@@ -1246,6 +1318,25 @@
     document.getElementById('hphtFilterLabel').textContent=yr+' · '+dt;
     document.getElementById('hphtRecCount').textContent=rows.length;
     updateHphtStats();
+    const cum = hphtRecords.filter(r => Number(r.fiscal_year) >= 2568);
+    const yrTot = rows.reduce((t,r)=>({tgt:t.tgt+n_(r.target_group),bs:t.bs+n_(r.hep_b_screened),bp:t.bp+n_(r.hep_b_positive),bn:t.bn+n_(r.hep_b_negative),cs:t.cs+n_(r.hep_c_screened),cp:t.cp+n_(r.hep_c_positive),cn:t.cn+n_(r.hep_c_negative)}),{tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
+    const cumTot= cum.reduce((t,r)=>({tgt:t.tgt+n_(r.target_group),bs:t.bs+n_(r.hep_b_screened),bp:t.bp+n_(r.hep_b_positive),bn:t.bn+n_(r.hep_b_negative),cs:t.cs+n_(r.hep_c_screened),cp:t.cp+n_(r.hep_c_positive),cn:t.cn+n_(r.hep_c_negative)}),{tgt:0,bs:0,bp:0,bn:0,cs:0,cp:0,cn:0});
+    const hphtTotRow = (t,cls,lbl) => {
+      const bP=pct(t.bp,t.bs),cP=pct(t.cp,t.cs);
+      return `<tr class="${cls}">
+        <td colspan="2" style="font-weight:800">${lbl}</td>
+        <td></td><td></td>
+        <td class="td-num">${fmt(t.tgt)}</td>
+        <td class="td-num">${fmt(t.bs)}</td><td class="td-num">${fmt(t.bp)}</td><td class="td-num">${fmt(t.bn)}</td>
+        <td class="td-num sep-l">${fmt(t.cs)}</td><td class="td-num">${fmt(t.cp)}</td><td class="td-num">${fmt(t.cn)}</td>
+        <td>${t.bs?`<span class="rpill ${posC(bP)}">${bP.toFixed(2)}%</span>`:'—'}</td>
+        <td class="sep-l">${t.cs?`<span class="rpill ${posC(cP)}">${cP.toFixed(2)}%</span>`:'—'}</td>
+        <td></td><td></td><td></td>
+      </tr>`;
+    };
+    const totRows = rows.length
+      ? hphtTotRow(yrTot,'tot','🏡 รวมปีที่เลือก') + hphtTotRow(cumTot,'tot-cum','📊 สะสม 2568+')
+      : '';
     document.getElementById('hphtTbody').innerHTML=rows.length
       ?rows.map((r,i)=>`<tr>
           <td style="color:var(--gray);font-size:12px">${i+1}</td>
@@ -1264,7 +1355,7 @@
             <button class="btn btn-teal" style="padding:5px 10px;font-size:12px;border-radius:7px" onclick='editHphtRecord(${JSON.stringify(r)})'>แก้ไข</button>
             <button class="btn" style="padding:5px 10px;font-size:12px;border-radius:7px;background:linear-gradient(135deg,#b91c1c,#ef4444)" onclick='deleteHphtRecord("${r.id}")'>ลบ</button>
           </div></td>
-        </tr>`).join('')
+        </tr>`).join('') + totRows
       :'<tr><td colspan="17" style="padding:32px;color:#5eead4;text-align:center">ยังไม่มีข้อมูล รพ.สต. — กดปุ่ม <strong>บันทึกข้อมูล รพ.สต.</strong> เพื่อเพิ่มรายการ</td></tr>';
   }
 
