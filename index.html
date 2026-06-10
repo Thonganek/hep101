@@ -283,11 +283,97 @@
       border-left:4px solid var(--s4);animation:slideR .25s}
     @keyframes slideR{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
 
-    @media(max-width:900px){.stats-bar{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:768px){.hero{flex-direction:column;align-items:flex-start}
-      .fg,.seg3{grid-template-columns:1fr 1fr}.app{padding:12px 10px}
-      .stats-bar{grid-template-columns:1fr 1fr}}
-    @media print{.toolbar,.stats-bar,.tab-nav,.rec-toggle,#adminSection,.modal,.toast{display:none!important}
+    /* ── BOTTOM NAV (mobile only, hidden on desktop) ── */
+    .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:90;
+      background:var(--card);border-top:1.5px solid var(--bdr);
+      box-shadow:0 -4px 24px rgba(14,165,233,.14);
+      padding:8px 16px max(10px,env(safe-area-inset-bottom));gap:6px}
+    .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+      padding:9px 8px;border:none;background:transparent;font:inherit;
+      font-size:11.5px;font-weight:700;color:var(--gray);cursor:pointer;
+      transition:background .15s,color .15s;border-radius:12px;line-height:1.2}
+    .bn-icon{font-size:24px;display:block;line-height:1.1}
+    .bn-btn.active.hosp{background:var(--s8);color:var(--s2)}
+    .bn-btn.active.hpht{background:var(--t7);color:var(--t2)}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .stats-bar{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:640px){
+      /* App shell */
+      .app{padding:10px 12px 86px}
+      /* Hero compact */
+      .hero{flex-wrap:wrap;padding:16px 18px;gap:10px;border-radius:16px;margin-bottom:12px}
+      .hero-inner{flex:1 1 100%;gap:10px}
+      .hero-icon{width:42px;height:42px;font-size:20px;border-radius:11px}
+      .hero h1{font-size:13.5px;line-height:1.35}
+      .hero-chips{margin-top:5px;gap:4px}
+      .hchip{font-size:10.5px;padding:3px 8px;gap:3px}
+      .hero-right{flex:1 1 100%;flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
+      .live-pill{padding:6px 12px;font-size:12px}
+      .hero-auth{flex-wrap:nowrap;gap:6px}
+      .btn-hero{padding:6px 12px;font-size:12px}
+      .user-tag{font-size:11px;padding:5px 10px}
+      /* Tab nav → hide; use bottom nav */
+      .tab-nav{display:none}
+      .bottom-nav{display:flex}
+      /* Toolbar */
+      .toolbar{gap:6px}
+      .btn{padding:9px 12px;font-size:12.5px;border-radius:10px}
+      .sep{display:none}
+      .year-pill{padding:5px 8px 5px 10px}
+      .year-pill label{font-size:11px}
+      /* Stats */
+      .stats-bar{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+      .stat-card{padding:11px 12px;gap:9px;border-radius:10px}
+      .stat-icon{width:36px;height:36px;font-size:16px;border-radius:9px}
+      .stat-val{font-size:18px}
+      .stat-lbl{font-size:10.5px;margin-top:2px}
+      /* Report card */
+      .report-card{border-radius:14px;margin-bottom:14px}
+      .rpt-hd{padding:12px 16px;flex-wrap:wrap;gap:8px}
+      .rpt-title{font-size:13px}
+      .rpt-sub{font-size:11px}
+      .rpt-year{font-size:12px;padding:5px 13px}
+      .legend{padding:8px 14px;gap:6px;font-size:11px}
+      /* Table */
+      .tscroll{-webkit-overflow-scrolling:touch}
+      table{font-size:12px}
+      td{padding:7px 9px}
+      .th-info,.th-hpht{padding:8px 9px;font-size:11px}
+      .th-hb,.th-hc{padding:8px 8px;font-size:11px}
+      .th-sb,.th-sc{padding:7px 8px;font-size:10.5px}
+      .td-name,.td-hpht{padding-left:11px;min-width:155px}
+      .rank{width:20px;height:20px;font-size:10px;border-radius:5px;margin-right:5px}
+      .rpill{min-width:48px;padding:2px 7px;font-size:11px}
+      /* Records toggle */
+      .rec-toggle{padding:11px 14px}
+      .rec-title{font-size:13px}
+      /* Locked */
+      .locked-box{padding:40px 20px;border-radius:14px}
+      /* Modals → bottom sheet */
+      .modal{padding:0;align-items:flex-end}
+      .modal-card{border-radius:22px 22px 0 0;max-height:95vh;max-width:100%;
+        animation:slideUp .28s cubic-bezier(.22,.68,0,1.12)}
+      .modal-hd{padding:16px 18px;border-radius:22px 22px 0 0}
+      .modal-title{font-size:15px}
+      .modal-body{padding:16px 18px 24px}
+      .fg{grid-template-columns:1fr 1fr}
+      .seg3{grid-template-columns:1fr 1fr 1fr}
+      /* Login */
+      .login-top-m{padding:24px 20px 18px;border-radius:22px 22px 0 0}
+      .login-body-m{padding:18px 20px 24px}
+    }
+    @media(max-width:400px){
+      .fg{grid-template-columns:1fr}
+      .seg3{grid-template-columns:1fr 1fr}
+      .hero h1{font-size:12.5px}
+      .btn{padding:8px 10px;font-size:12px}
+      .stat-val{font-size:16px}
+    }
+    @keyframes slideUp{from{opacity:.5;transform:translateY(56px)}to{opacity:1;transform:none}}
+    @media print{.toolbar,.stats-bar,.tab-nav,.bottom-nav,.rec-toggle,#hospAdminSection,.modal,.toast{display:none!important}
       .report-card{box-shadow:none;border:1px solid #ccc}}
   </style>
 </head>
@@ -780,6 +866,16 @@
   </div>
 </div>
 
+<!-- Bottom Navigation (mobile) -->
+<div class="bottom-nav" id="bottomNav">
+  <button class="bn-btn hosp active" data-tab="hosp" onclick="switchTab('hosp')">
+    <span class="bn-icon">🏥</span>โรงพยาบาล
+  </button>
+  <button class="bn-btn hpht" data-tab="hpht" onclick="switchTab('hpht')">
+    <span class="bn-icon">🏡</span>รพ.สต. <span id="bnLock" style="font-size:10px">🔒</span>
+  </button>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -841,10 +937,11 @@
   function switchTab(tab) {
     document.getElementById('tabHosp').style.display = tab === 'hosp' ? '' : 'none';
     document.getElementById('tabHpht').style.display = tab === 'hpht' ? '' : 'none';
-    document.querySelectorAll('.tab-btn').forEach(b => {
+    document.querySelectorAll('.tab-btn, .bn-btn').forEach(b => {
       b.classList.toggle('active', b.dataset.tab === tab);
     });
     if (tab === 'hpht' && loggedIn && hphtRecords.length === 0) loadHphtData();
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   // ── AUTH ──────────────────────────────────────────────────────────
@@ -896,6 +993,7 @@
     document.getElementById('hphtLocked').style.display = '';
     document.getElementById('hphtUnlocked').style.display = 'none';
     document.getElementById('hphtLockIcon').style.display = '';
+    const bl = document.getElementById('bnLock'); if (bl) bl.style.display = '';
     toast('ออกจากระบบแล้ว');
   }
 
@@ -911,6 +1009,7 @@
     document.getElementById('hphtLocked').style.display = 'none';
     document.getElementById('hphtUnlocked').style.display = '';
     document.getElementById('hphtLockIcon').style.display = 'none';
+    const bl = document.getElementById('bnLock'); if (bl) bl.style.display = 'none';
   }
 
   function togglePw() {
